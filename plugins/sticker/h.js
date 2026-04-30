@@ -18,7 +18,7 @@ const test = async (m, { conn, args }) => {
 
   await conn.sendMessage(
     m.chat,
-    { sticker: buffer, contextInfo: context(m.sender, "https://i.pinimg.com/736x/d5/c6/c1/d5c6c1f4a0562c5c7630ae59d19c33c8.jpg") },
+    { sticker: buffer, contextInfo: context(m.sender, "https://i.ibb.co/dw1N7YZd/IMG-20260429-WA0040.jpg") },
     { quoted: global.reply_status }
   );
 };
