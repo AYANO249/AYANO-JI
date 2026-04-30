@@ -1,0 +1,47 @@
+/* 
+اليوم زي كل يوم... بلا معنى. كل شيء يتلاشى في ظلال الوجود. انت تعرف.by: 𝐓𝐎𝐉𝐈
+*/
+
+const example = async (m, { conn }) => {
+
+conn.msgUrl(m.chat,
+  '*𝐓𝐎𝐉𝐈 𝐁𝐎𝐓 𝐈𝐒 𝐖𝐎𝐑𝐊𝐈𝐍𝐆 𝐍𝐎𝐖*',
+  {
+    img: 'https://i.ibb.co/Ndtbdmmf/75346799414305d513e9d78df1a8a170.jpg',
+    title: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕 ',
+    body: '𝐓𝐎𝐉𝐈 𝐒𝐘𝐒𝐓𝐄𝐌 𝐈𝐒 𝐀𝐂𝐓𝐈𝐕𝐄.\nhttps://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X',
+    big: true,
+    mentions: ['201234567890@s.whatsapp.net', '201111111111@s.whatsapp.net'],
+    newsletter: {
+      name: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕 ',
+      jid: '120363425314431422@newsletter'
+    }
+  },
+  m
+)
+
+};
+
+example.usage = ["تست2"]
+
+
+/* ↓ قسم الأمر ↓ */
+example.category = "example"
+
+
+/* ↓ استخدم الأوامر ↓ */
+example.command = ["تست2"] 
+
+
+/* ↓ بتعمل ايقاف ل الأمر ↓ */
+example.disabled = false
+
+
+/* ↓ منع السبام ↓ */
+example.cooldown = 1000;
+
+
+/* ↓ بدون بادئة ↓ */
+example.usePrefix = false;
+
+export default example

@@ -1,0 +1,45 @@
+{
+  "groups": {
+    "status@broadcast": {},
+    "120363420424925802@g.us": {},
+    "120363425244320302@g.us": {},
+    "120363407772692295@g.us": {
+      "adminOnly": true,
+      "antiLink": true
+    },
+    "120363376558748962@g.us": {
+      "warnings": {
+        "96876430222@s.whatsapp.net": 4
+      }
+    },
+    "120363405487909098@g.us": {}
+  },
+  "users": {
+    "249906024672@s.whatsapp.net": {},
+    "249966395202@s.whatsapp.net": {},
+    "249904399666@s.whatsapp.net": {},
+    "249112727808@s.whatsapp.net": {},
+    "249125648235@s.whatsapp.net": {},
+    "249902558525@s.whatsapp.net": {},
+    "249113388050@s.whatsapp.net": {},
+    "249964560198@s.whatsapp.net": {},
+    "249919834083@s.whatsapp.net": {},
+    "249100629782@s.whatsapp.net": {},
+    "249960629213@s.whatsapp.net": {},
+    "249904394584@s.whatsapp.net": {},
+    "249916484023@s.whatsapp.net": {},
+    "249900840393@s.whatsapp.net": {},
+    "249929274545@s.whatsapp.net": {},
+    "249115200971@s.whatsapp.net": {},
+    "249115402681@s.whatsapp.net": {},
+    "249962126459@s.whatsapp.net": {},
+    "249963369579@s.whatsapp.net": {},
+    "249110771968@s.whatsapp.net": {},
+    "249119252883@s.whatsapp.net": {},
+    "249116348923@s.whatsapp.net": {},
+    "249116516886@s.whatsapp.net": {},
+    "249118016101@s.whatsapp.net": {},
+    "201147549151@s.whatsapp.net": {}
+  },
+  "dev": true
+}
