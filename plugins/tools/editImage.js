@@ -1,54 +1,78 @@
-import fs from 'fs';
-import axios from 'axios';
-import FormData from 'form-data';
 import { uploadToCatbox } from "../../system/utils.js";
 
 let handler = async (m, { conn, bot, text }) => {
   try {
-    if (!m.quoted?.mimetype) return m.reply("*❌ ~ رد على صورة أولاً~*");
-    if (!m.quoted.mimetype.startsWith('image/')) return m.reply("*❌ ~إنه ملف وليس صورة~*");
-    if (!text) return m.reply("*💬 ~ اكتب التعديل المطلوب ~*");
-    
-    m.react("⚡");
-    
-    const buffer = await m.quoted.download();
-    const imageUrl = await uploadToCatbox(buffer);
-    
-    const editRes = await bot.Api.tools.editImage({ 
-      imageUrl: imageUrl, 
-      prompt: text 
-    });
-    
+    // تحقق من الرد
+    if (!m.quoted) 
+      return m.reply("❌ يجب الرد على صورة أولاً");
+
+    if (!m.quoted.mimetype || !m.quoted.mimetype.startsWith("image/")) 
+      return m.reply("❌ الملف المرفق ليس صورة");
+
+    if (!text) 
+      return m.reply("💬 يرجى كتابة وصف التعديل المطلوب");
+
+    await m.react("⚡");
+
+    // تحميل الصورة
+    const buffer = await m.quoted.download().catch(() => null);
+    if (!buffer) 
+      return m.reply("❌ فشل في تحميل الصورة");
+
+    // رفع الصورة
+    const imageUrl = await uploadToCatbox(buffer).catch(() => null);
+    if (!imageUrl) 
+      return m.reply("❌ فشل في رفع الصورة");
+
+    // طلب التعديل
+    const editRes = await bot.Api.tools.editImage({
+      imageUrl,
+      prompt: text
+    }).catch(() => null);
+
     if (!editRes?.status || !editRes?.recordId) {
-      return m.reply("*❌ ~ فشل في بدء عملية التعديل ~*");
+      return m.reply("❌ فشل في بدء عملية التعديل");
     }
-    
-    const waitMsg = await m.reply("*🎨 ~ جاري تعديل الصورة... قد يستغرق هذا دقيقة ~*");
-    
+
+    await m.reply("🎨 جارٍ تعديل الصورة، يرجى الانتظار...");
+
+    // انتظار النتيجة
     let result = null;
-    for (let j = 0; j < 30; j++) {
-      await new Promise(resolve => setTimeout(resolve, 5000));
-      const checkRes = await bot.Api.tools.checkResult({ rid: editRes.recordId });
-      if (checkRes?.completed && checkRes?.resultUrl) {
-        result = checkRes.resultUrl;
+    let attempts = 0;
+    const maxAttempts = 24;
+
+    while (attempts < maxAttempts) {
+      await new Promise(r => setTimeout(r, 5000));
+
+      const check = await bot.Api.tools.checkResult({
+        rid: editRes.recordId
+      }).catch(() => null);
+
+      if (check?.completed && check?.resultUrl) {
+        result = check.resultUrl;
         break;
       }
+
+      attempts++;
     }
-   
-    if (!result) return m.reply("*❌ ~ لم يتم الانتهاء من التعديل في الوقت المحدد ~*");
-    
+
+    if (!result) {
+      return m.reply("❌ استغرقت العملية وقتاً طويلاً ولم تكتمل");
+    }
+
+    // إرسال الصورة
     await conn.sendMessage(m.chat, {
       image: { url: result },
-      caption: `✅ ~ تم التعديل بنجاح\n- *(${text})*`,
+      caption: `✅ تم تعديل الصورة بنجاح\n\n📝 التعديل: ${text}`
     }, { quoted: m });
-    
-  } catch (error) {
-    console.error(error);
-    return m.reply("*❌ ~ حدث خطأ أثناء تعديل الصورة ~*");
+
+  } catch (err) {
+    console.error("EditImage Error:", err);
+    m.reply("❌ حدث خطأ غير متوقع أثناء تعديل الصورة");
   }
 };
 
-handler.usage = ["تعديل"];
+handler.usage = ["تعديل <وصف>"];
 handler.command = ["editimage", "تعديل"];
 handler.category = "tools";
 
