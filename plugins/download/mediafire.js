@@ -1,32 +1,50 @@
 import axios from 'axios';
+import cheerio from 'cheerio';
 
 const handler = async (m, { conn, text, command }) => {
-  if (!text) throw `*❲ 📁 ❳ ~ ضع رابط ميديا فاير بعد الأمر ~ ❲ 🔹 ❳ *\n\nمثال:\n/${command} https://www.mediafire.com/file/xxxxx/file`;
 
-  m.react('🌀');
+  if (!text) throw `*❲ 📁 ❳ ضع رابط ميديافاير بعد الأمر ❳*\n\nمثال:\n/${command} https://www.mediafire.com/file/...`;
+
+  if (!text.includes('mediafire.com')) throw '❌ الرابط غير صحيح';
+
+  m.react('📥');
 
   try {
-    const apiUrl = `https://emam-api.web.id/home/sections/Download/api/api/mediafire?url=${encodeURIComponent(text)}`;
-    const res = await axios.get(apiUrl);
-    const data = res.data;
+    // 1. جلب الصفحة
+    const { data } = await axios.get(text);
 
-    if (!data.status) throw '❌ فشل في جلب المعلومات';
+    // 2. استخراج رابط التحميل
+    const $ = cheerio.load(data);
+    const downloadUrl = $('#downloadButton').attr('href');
 
-    const fileInfo = data.data;
+    if (!downloadUrl) throw '❌ ما قدرت أجيب رابط التحميل';
 
+    // 3. تحميل الملف
+    const file = await axios.get(downloadUrl, {
+      responseType: 'arraybuffer'
+    });
+
+    // 4. استخراج اسم الملف
+    let fileName = downloadUrl.split('/').pop().split('?')[0];
+
+    // 5. إرسال الملف
     await conn.sendMessage(m.chat, {
-      document: { url: fileInfo.downloadUrl },
-      mimetype: fileInfo.mimetype,
-      fileName: fileInfo.filename,
-      caption: `${fileInfo.filename} ~ (${fileInfo.type})`
+      document: file.data,
+      mimetype: 'application/octet-stream',
+      fileName: fileName
     }, { quoted: m });
 
+    m.react('✅');
+
   } catch (e) {
-    console.log(e.message);
+    console.error(e);
+    m.react('❌');
+    m.reply(`🚨 خطأ:\n${e?.message || e}`);
   }
 };
-handler.usage = ["ميديافاير"]
-handler.category = "downloads";
+
+handler.help = ['mediafire'];
+handler.tags = ['downloads'];
 handler.command = /^(mf|mediafire|ميديافاير)$/i;
 
 export default handler;
