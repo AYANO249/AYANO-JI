@@ -1,21 +1,21 @@
 const MENU_TIMEOUT = 120000;
 
 const CATEGORIES = [
-    [1, '﴿الـتـحـمـيـل﴾', 'downloads', 'ʚɞ'],
-    [2, '﴿الـمـجـمـوعـات﴾', 'group', 'ʚɞ'],
-    [3, '﴿الـمـلـصـقات﴾', 'sticker', 'ʚɞ'],
-    [4, '﴿الـمطـوريـن﴾', 'owner', 'ʚɞ'],
-    [5, '﴿الأمـثـلة﴾', 'example', 'ʚɞ'],
-    [6, '﴿الأدوات﴾', 'tools', 'ʚɞ'],
-    [7, '﴿البحث﴾', 'search', 'ʚɞ'],
-    [8, '﴿الـمـشـرفـيـن﴾', 'admin', 'ʚɞ'],
-    [9, '﴿الألـعـاب﴾', 'games', 'ʚɞ'],
-    [10, '﴿الـجـيف﴾', 'gif', 'ʚɞ'],
-    [11, '﴿الـبنڪ﴾', 'bank', 'ʚɞ'],
-    [12, '﴿الـذڪاء الإصطناعي﴾', 'ai', 'ʚɞ'],
-    [13, '﴿الـبوتـات الـفـࢪعية﴾', 'sub', 'ʚɞ'],
-    [14, '﴿مـعلومـات الـبوتـات﴾', 'info', 'ʚɞ'],
-    [15, '﴿أقسام أخرى﴾', 'other', 'ʚɞ']
+    [1, 'التحميل', 'downloads', 'ʚɞ'],
+    [2, 'المجموعات', 'group', 'ʚɞ'],
+    [3, 'الملصقات', 'sticker', 'ʚɞ'],
+    [4, 'المطورين', 'owner', 'ʚɞ'],
+    [5, 'الأمثلة', 'example', 'ʚɞ'],
+    [6, 'الأدوات', 'tools', 'ʚɞ'],
+    [7, 'البحث', 'search', 'ʚɞ'],
+    [8, 'المشرفين', 'admin', 'ʚɞ'],
+    [9, 'الألعاب', 'games', 'ʚɞ'],
+    [10, 'الجيف', 'gif', 'ʚɞ'],
+    [11, 'البنك', 'bank', 'ʚɞ'],
+    [12, 'الذكاء الاصطناعي', 'ai', 'ʚɞ'],
+    [13, 'البوتات الفرعية', 'sub', 'ʚɞ'],
+    [14, 'معلومات البوت', 'info', 'ʚɞ'],
+    [15, 'أقسام أخرى', 'other', 'ʚɞ']
 ];
 
 const getCat = n => CATEGORIES.find(c => c[0] === n);
@@ -30,9 +30,10 @@ const clean = () => {
 };
 
 const getImg = (bot) => {
-    const images = bot.config?.info?.images;
-    if (!images) return 'https://telegra.ph/file/default.jpg'; // رابط احتياطي في حال عدم وجود صور
-    return Array.isArray(images) ? images[Math.floor(Math.random() * images.length)] : images;
+    const { images } = bot.config.info;
+    return Array.isArray(images)
+        ? images[Math.floor(Math.random() * images.length)]
+        : images;
 };
 
 const context = (jid, img) => ({
@@ -67,12 +68,16 @@ const menu = async (m, { conn, bot }) => {
     });
 
     const txt = `
-رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ
-وَلَا تَجْعَلْ فِي قُلُوبِنَا غِلًّا لِّلَّذِينَ آمَنُوا رَبَّنَا إِنَّكَ رَءُوفٌ رَّحِيمٌ
-╭─┈─┈─┈─⟞ʚɞ⟝─┈─┈─┈─╮
-${CATEGORIES.map(c => `┃ ⌯︙${c[0]} ~ *قـسـم ${c[1]} ${c[3]}*`).join('\n')}
-╰─┈─┈─┈─⟞ʚɞ⟝─┈─┈─┈─╯
-> *الرجاء الرد برقم القسم على الرسالة*
+اللَّهُمَّ إِنِّي أَسْأَلُكَ رِضَاكَ وَالْجَنَّةَ
+وَأَعُوذُ بِكَ مِنْ سَخَطِكَ وَالنَّارِ
+
+╭──────────⟞ʚɞ⟝──────────╮
+┃ 『 𝐓𝐎𝐉𝐈 𝐁𝐎𝐓 』
+┃ ─────────────────────
+${CATEGORIES.map(c => `┃ ⌯︙${c[0]} ↬ قسم ${c[1]} ${c[3]}`).join('\n')}
+╰──────────⟞ʚɞ⟝──────────╯
+
+✦ الرد برقم القسم لعرض الأوامر ✦
 𝐓𝐎𝐉𝐈 𝐈𝐍 🏮`;
 
     const msg = await conn.sendMessage(m.chat, {
@@ -84,39 +89,38 @@ ${CATEGORIES.map(c => `┃ ⌯︙${c[0]} ~ *قـسـم ${c[1]} ${c[3]}*`).join('
 };
 
 menu.before = async (m, { conn, bot }) => {
-    if (!m.quoted || !m.text) return false;
     clean();
-    
-    const menuData = global.menus[m.quoted.id];
+    const menuData = global.menus[m.quoted?.id];
     if (!menuData) return false;
 
-    const catNum = parseInt(m.text.trim());
-    if (isNaN(catNum)) return false;
-
-    const cat = getCat(catNum);
+    const cat = getCat(parseInt(m.text));
     if (!cat) return false;
 
     let cmds = menuData.cats[cat[2]];
-    if (!cmds || cmds.length === 0) {
-        await conn.sendMessage(m.chat, { text: '*❌ ≥ القسم فاضي حالياً*' }, { quoted: m });
+    if (!cmds?.length) {
+        await conn.sendMessage(m.chat, { text: '*❌≥ القسم فاضي حالياً*' }, { quoted: m });
         return true;
     }
 
-    // حذف رسالة القائمة القديمة لتنظيف الدردشة
-    try {
-        await conn.sendMessage(m.chat, { delete: m.quoted.key });
-    } catch (e) { /* تجاهل الخطأ إذا لم يملك الصلاحية */ }
-    
+    await conn.sendMessage(m.chat, {
+        delete: { remoteJid: m.chat, id: m.quoted.id, fromMe: true }
+    });
+
     delete global.menus[m.quoted.id];
 
     let finalCmds = [];
     cmds.forEach(c => {
-        let raw = Array.isArray(c.command) ? c.command[0] : (Array.isArray(c.usage) ? c.usage[0] : (c.command || c.usage));
-        
-        if (raw instanceof RegExp) {
-            raw = raw.source.replace(/[\^\$\(\)\[\]\\]/g, '').split('|')[0];
-        } else if (typeof raw === 'string' && raw.includes('^')) {
-            raw = raw.replace(/[\^\$\(\)\[\]\\]/g, '').split('|')[0];
+        let raw = Array.isArray(c.command)
+            ? c.command[0]
+            : (Array.isArray(c.usage)
+                ? c.usage[0]
+                : (c.command || c.usage));
+
+        if (raw instanceof RegExp || (typeof raw === 'string' && raw.includes('^'))) {
+            let match = raw.toString().match(/\((.*?)\|/);
+            raw = match
+                ? match[1]
+                : raw.toString().replace(/[^a-z0-9أ-ي]/gi, '');
         }
 
         if (raw && !finalCmds.includes(raw)) finalCmds.push(raw);
@@ -125,16 +129,17 @@ menu.before = async (m, { conn, bot }) => {
     const cmdsList = finalCmds.map(name => `┃${cat[3]} /${name}`).join('\n');
 
     await conn.sendMessage(m.chat, {
-        text: `╭─┈─┈─┈─⟞${cat[3]}⟝─┈─┈─┈─╮
-┃ *⌯︙ قـسـم ${cat[1]} ${cat[3]}*
-╰─┈─┈─┈─⟞${cat[3]}⟝─┈─┈─┈─╯
+        text: `
+╭──────────⟞ ${cat[3]} ⟝──────────╮
+┃ ⌯︙ قسم ${cat[1]}
+╰──────────⟞ ${cat[3]} ⟝──────────╯
 
 ${cmdsList}
 
-╭─┈─┈─┈─⟞${cat[3]}⟝─┈─┈─┈─╮
-┃ *⌯︙𝐓𝐎𝐉𝐈 𝐈𝐍 ~ 𝐒𝐘𝐒𝐓𝐄𝐌*
-╰─┈─┈─┈─⟞${cat[3]}⟝─┈─┈─┈─╯
-> *رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا*`.trim(),
+╭──────────⟞ ${cat[3]} ⟝──────────╮
+┃ 𝐓𝐎𝐉𝐈 𝐈𝐍 ~ 𝐒𝐘𝐒𝐓𝐄𝐌
+╰──────────⟞ ${cat[3]} ⟝──────────╯
+> اللَّهُمَّ اغْفِرْ لَنَا وَارْحَمْنَا`.trim(),
         contextInfo: context(m.sender, getImg(bot))
     }, { quoted: m });
 
