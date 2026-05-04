@@ -14,8 +14,8 @@ const { data } = JSON.parse(res);
   ], 
   mentions: [m.sender],
   newsletter: {
-      name: '𝐕𝐈𝐈7 ~ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🕷️',
-      jid: '120363225356834044@newsletter'
+      name: '𝐈𝐍 𝐓𝐎𝐉𝐈🏮',
+      jid: '120363425314431422@newsletter'
     },
 }, global.reply_status)
 
