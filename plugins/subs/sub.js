@@ -1,11 +1,5 @@
 const run = async (m, { args, conn, bot }) => {
-/*
-if (subBots.list().length >= 30) {
-  return m.reply("خلاص العدد اكتمل");
-} // عدد البوتات الي مسموح ب ربطهم فقط
-
-*/
-  if (global.db.noSub) return m.reply("المطور قافل التنصيب")
+  if (global.db.noSub) return m.reply("⚠️ المطور أغلق نظام التنصيب حالياً")
   try {
     const num = m.sender.split("@")[0].replace(/[+\s-]/g, '');
 
@@ -17,7 +11,6 @@ if (subBots.list().length >= 30) {
     const init = await m.reply(`⏳ جاري تنصيب بوت للرقم *${num}*...`);
 
     const state = { uid: null, pairDone: false, resolved: false, pending: null };
-
     const { images: img } = bot.config.info;
 
     const cleanup = () => {
@@ -76,37 +69,30 @@ if (subBots.list().length >= 30) {
 
 run.command = ["تنصيب"];
 run.noSub = true;
-run.usage =  ["تنصيب"];
+run.usage = ["تنصيب"];
 run.category = "sub";
 export default run;
-
-
 
 const Func = {
   pair: async (conn, code, num, m, reply_status) => {
     await conn.sendButton(m.chat, {
       imageUrl: "https://i.ibb.co/RkVbNgdz/IMG-20260429-WA0040.jpg",
-      bodyText: `🔐⤿ نـظـام الـبـوتـات الـفـرعـيـه 𑁍
-⊱⋅ ──────────── ⋅⊰
-📱 — الرقم: ${num}
-🔑 — الكود: ${code}
-⊱⋅ ──────────── ⋅⊰
-> *_افتح واتساب > الأجهزة المرتبطة > ربط جهاز برقم الهاتف > أدخل الكود_*`,
-      footerText: "𝑺𝒚𝒔𝒕𝒆𝒎_𝑺𝒖𝒃𝑩𝒐𝒕𝒔_𝐓𝐎𝐉𝐈",
+      bodyText: `🔐⤿ نـظـام الـبـوتـات الـفـرعـيـه 𑁍\n⊱⋅ ──────────── ⋅⊰\n📱 — الرقم: ${num}\n🔑 — الكود: ${code}\n⊱⋅ ──────────── ⋅⊰\n> *_افتح واتساب > الأجهزة المرتبطة > ربط جهاز برقم الهاتف > أدخل الكود_*`,
+      footerText: "© 𝐒𝐲𝐬𝐭𝐞𝐦 𝐒𝐮𝐛𝐁𝐨𝐭𝐬 𝐓𝐎𝐉𝐈",
       buttons: [
         { name: "cta_copy", params: { display_text: "⟨⚜️| 𝐂𝐨𝐩𝐲 𝐂𝐨𝐝𝐞 |⚜️⟩", copy_code: code } },
-        { name: "cta_url", params: { display_text: "⟨�| 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 𝐓𝐎𝐉𝐈 |�⟩", url: "https://google.com" } },
+        { name: "cta_url", params: { display_text: "⟨📢| 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 𝐓𝐎𝐉𝐈 |⟩", url: "https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X" } },
       ],
       mentions: [m.sender],
       newsletter: {
         name: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕',
-        jid: '120363425314431422@newsletter'
+        jid: '120363425314431422@newsletter' // معرف القناة الجديد
       },
       interactiveConfig: {
         buttons_limits: 10,
-        list_title: "𝑺𝒚𝒔𝒕𝒆𝒎_𝑺𝒖𝒃𝑩𝒐𝒕𝒔_𝐓𝐎𝐉𝐈",
+        list_title: "𝐓𝐎𝐉𝐈 𝐒𝐘𝐒𝐓𝐄𝐌",
         button_title: "Click Here",
-        canonical_url: `https://code.com/${code}`
+        canonical_url: `https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X`
       }
     }, global.reply_status);
   },
@@ -114,13 +100,13 @@ const Func = {
   ready: async (conn, num, m, img) => {
     await m.react("✅");
     await conn.sendMessage(m.chat, {
-      text: `✅ — *تـم الاتـصـال بـنـجـاح*\n\n📱 الرقم: ${num}\n> *البوت جاهز للاستخدام الآن*`,
+      text: `✅ — *تـم الاتـصـال بـنـجـاح*\n\n📱 الرقم: ${num}\n> *بـوت 𝐓𝐎𝐉𝐈 جـاهـز للاسـتـخـدام الآن*`,
       contextInfo: {
         externalAdReply: {
-          title: "𝐓𝐎𝐉𝐈| 𝐁𝐨𝐭 𝐢𝐬 𝐛𝐮𝐢𝐥𝐭 𝐨𝐧 𝐭𝐡𝐞 𝐖𝐒/𝐕𝐈𝐈 𝐟𝐫𝐚𝐦𝐞𝐰𝐨𝐫𝐤",
-          body: "𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙 𝚋𝚘𝚝 𝚝𝚑𝚊𝚝 𝚒𝚜 𝚎𝚊𝚜𝚢 𝚝𝚘 𝚖𝚘𝚍𝚒𝚏𝚢 𝚊𝚗𝚍 𝚟𝚎𝚛𝚢 𝚏𝚊𝚜𝚝",
+          title: "𝐓𝐎𝐉𝐈 | 𝐁𝐨𝐭 𝐂𝐨𝐧𝐧𝐞𝐜𝐭𝐞𝐝",
+          body: "نظام البوتات الفرعية الأسرع والأكثر استقراراً",
           thumbnailUrl: img,
-          sourceUrl: '',
+          sourceUrl: 'https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X',
           mediaType: 1,
           renderLargerThumbnail: true
         }
