@@ -4,19 +4,17 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) throw `⚠️ يرجى كتابة اسم السورة ورقم الآية\nمثال: *${usedPrefix + command} الإخلاص | 1*`;
 
     try {
-        let [surahName, ayaNumber] = text.split('|').map(v => v.trim());
-        if (!surahName || !ayaNumber) throw `⚠️ التنسيق خاطئ.. مثال: *${usedPrefix + command} الفاتحة | 2*`;
+        // مطور: يقبل الفصل بـ | أو بالمسافة
+        let [surahName, ayaNumber] = text.includes('|') ? text.split('|').map(v => v.trim()) : text.split(/ (\d+)/);
+        if (!surahName || !ayaNumber) throw `⚠️ التنسيق خاطئ.. مثال: *${usedPrefix + command} الإخلاص 1*`;
 
         await m.reply(`⏳ جاري جلب الآية والتفسير...`);
 
-        // البحث عن رقم السورة بناءً على اسمها (باستخدام API للبحث)
-        const searchRes = await axios.get(`https://quran-endpoint.vercel.app/search?query=${encodeURIComponent(surahName)}`);
+        const searchRes = await axios.get(`https://quran-endpoint.vercel.app/search?query=${encodeURIComponent(surahName.trim())}`);
         if (!searchRes.data.results.length) return m.reply("❌ لم أتمكن من العثور على هذه السورة.");
 
         const surahId = searchRes.data.results[0].number;
-        
-        // جلب التفسير والآية
-        const tafsirRes = await axios.get(`https://quran-api-arab.vercel.app/ayats/${surahId}/${ayaNumber}`);
+        const tafsirRes = await axios.get(`https://quran-api-arab.vercel.app/ayats/${surahId}/${ayaNumber.trim()}`);
         const data = tafsirRes.data;
 
         const msg = `
@@ -32,8 +30,7 @@ ${data.tafsir}
 
 ╭─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
 ┃ *⌯︙𝐓𝐎𝐉𝐈 𝐈𝐍 ~ 𝐒𝐘𝐒𝐓𝐄𝐌*
-╰─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╯
-> *أَفَلَا يَتَدَبَّرُونَ الْقُرْآنَ*`.trim();
+╰─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╯`.trim();
 
         await conn.sendMessage(m.chat, {
             text: msg,
@@ -41,8 +38,7 @@ ${data.tafsir}
         }, { quoted: m });
 
     } catch (e) {
-        console.error(e);
-        m.reply("❌ حدث خطأ.. تأكد من كتابة اسم السورة ورقم الآية بشكل صحيح.");
+        m.reply("❌ تأكد من كتابة اسم السورة بشكل صحيح ورقم آية موجود فعلياً.");
     }
 };
 
@@ -53,15 +49,14 @@ handler.category = "islamic";
 
 export default handler;
 
-// دالة التنسيق الموحدة لهوية TOJI IN
 const context = (jid, title, body) => ({
     mentionedJid: [jid],
+    forwardingScore: 999,
     isForwarded: true,
-    forwardingScore: 1,
     forwardedNewsletterMessageInfo: {
         newsletterJid: '120363425314431422@newsletter',
         newsletterName: '𝐓𝐎𝐉𝐈 𝐈𝐍 🏮',
-        serverMessageId: 0
+        serverMessageId: 143
     },
     externalAdReply: {
         title: title,
@@ -72,4 +67,3 @@ const context = (jid, title, body) => ({
         renderLargerThumbnail: true
     }
 });
-
