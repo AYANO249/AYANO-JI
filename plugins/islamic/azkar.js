@@ -1,50 +1,86 @@
-const handler = async (m, { conn, usedPrefix, command }) => {
-    const azkarList = [
-        "1️⃣ اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك، وأنا على عهدك ووعدك ما استطعت، أعوذ بك من شر ما صنعت، أبوء لك بنعمتك علي، وأبوء بذنبي فاغفر لي فإنه لا يغفر الذنوب إلا أنت.",
-        "2️⃣ أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.",
-        "3️⃣ رضيت بالله رباً، وبالإسلام ديناً، وبمحمد صلى الله عليه وسلم نبياً. (3 مرات)",
-        "4️⃣ يا حي يا قيوم برحمتك أستغيث أصلح لي شأني كله ولا تكلني إلى نفسي طرفة عين.",
-        "5️⃣ حسبي الله لا إله إلا هو عليه توكلت وهو رب العرش العظيم. (7 مرات)",
-        "6️⃣ بسم الله الذي لا يضر مع اسمه شيء في الأرض ولا في السماء وهو السميع العليم. (3 مرات)",
-        "7️⃣ سُبحان الله وبحمده: عدد خلقه، ورضا نفسه، وزنة عرشه، ومداد كلماته. (3 مرات)",
-        "8️⃣ اللهم إني أسألك العفو والعافية في الدنيا والآخرة، اللهم إني أسألك العفو والعافية في ديني ودنياي وأهلي ومالي.",
-        "9️⃣ لا إله إلا أنت سبحانك إني كنت من الظالمين.",
-        "🔟 اللهم صل وسلم وبارك على نبينا محمد وعلى آله وصحبه أجمعين. (10 مرات)"
-    ];
+import axios from 'axios';
 
-    // دمج مصفوفة الأذكار في نص واحد مع فواصل
-    const allAzkar = azkarList.join('\n\n─── ⋆⋅⭐⋅⋆ ───\n\n');
+const handler = async (m, { conn, usedPrefix, command, text }) => {
+    // مصفوفة الأقسام والروابط الخاصة بها من الـ API
+    const sections = {
+        '1': { name: 'أذكار الصباح', api: 'https://raw.githubusercontent.com/nawafalqari/azkar-api/56dfa3d132646487e41b9d4e51147f711846b0a7/azkar.json', key: 'أذكار الصباح' },
+        '2': { name: 'أذكار المساء', api: 'https://raw.githubusercontent.com/nawafalqari/azkar-api/56dfa3d132646487e41b9d4e51147f711846b0a7/azkar.json', key: 'أذكار المساء' },
+        '3': { name: 'أذكار بعد الصلاة', api: 'https://raw.githubusercontent.com/nawafalqari/azkar-api/56dfa3d132646487e41b9d4e51147f711846b0a7/azkar.json', key: 'أذكار بعد الصلاة' },
+        '4': { name: 'أذكار النوم', api: 'https://raw.githubusercontent.com/nawafalqari/azkar-api/56dfa3d132646487e41b9d4e51147f711846b0a7/azkar.json', key: 'أذكار النوم' }
+    };
 
-    const caption = `
+    // إذا لم يحدد المستخدم قسماً، نرسل له القائمة
+    if (!text) {
+        const menuMsg = `
 ╭─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
-┃    『 *جَمِـيعُ الأَذْكَـار* 』
+┃    『 *قائمة الأذكار الذكية* 』
 ╰─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
 
-${allAzkar}
+الرجاء اختيار رقم القسم المطلوب:
+
+1️⃣ ☀️ أذكار الصباح
+2️⃣ 🌑 أذكار المساء
+3️⃣ 🕌 أذكار بعد الصلاة
+4️⃣ 🛌 أذكار النوم
+
+📌 مثال للطلب: *${usedPrefix + command} 1*
 
 ╭─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
 ┃ *⌯︙𝐓𝐎𝐉𝐈 𝐈𝐍 ~ 𝐒𝐘𝐒𝐓𝐄𝐌*
-╰─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╯
-> *أَلا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ*`.trim();
+╰─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╯`.trim();
 
-    await conn.sendMessage(m.chat, {
-        text: caption,
-        contextInfo: context(m.sender, "🕋 الأذكار اليومية كاملة", "تذكير بذكر الله | 𝐓𝐎𝐉𝐈 𝐈𝐍")
-    }, { quoted: m });
+        return await conn.sendMessage(m.chat, {
+            image: { url: 'https://i.ibb.co/r2CKLTLT/a27eefa4ae6dce04e9a0a7bd506e2a7f.jpg' },
+            caption: menuMsg,
+            contextInfo: context(m.sender, "🕋 اختر ذكرك اليومي", "نور حياتك بذكر الله | 𝐓𝐎𝐉𝐈 𝐈𝐍")
+        }, { quoted: m });
+    }
+
+    // جلب البيانات بناءً على الرقم المختار
+    const selection = sections[text.trim()];
+    if (!selection) return m.reply("⚠️ رقم القسم غير صحيح، اختر من 1 إلى 4.");
+
+    try {
+        await m.reply(`⏳ جاري جلب *${selection.name}* من السيرفر...`);
+        const res = await axios.get(selection.api);
+        const azkar = res.data[selection.key];
+
+        // تنسيق الأذكار في رسالة واحدة
+        let result = azkar.map((v, i) => `*(${i + 1})* ${v.zekr}\n✨ _التكرار: ${v.repeat}_`).join('\n\n─── ⋆⋅⭐⋅⋆ ───\n\n');
+
+        const caption = `
+╭─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
+┃    『 *${selection.name}* 』
+╰─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
+
+${result}
+
+╭─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
+┃ *⌯︙𝐓𝐎𝐉𝐈 𝐈𝐍 ~ 𝐒𝐘𝐒𝐓𝐄𝐌*
+╰─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╯`.trim();
+
+        await conn.sendMessage(m.chat, {
+            image: { url: 'https://i.ibb.co/r2CKLTLT/a27eefa4ae6dce04e9a0a7bd506e2a7f.jpg' }, // يمكنك تغيير الصورة حسب القسم
+            caption: caption,
+            contextInfo: context(m.sender, `✨ ${selection.name}`, "تم الجلب بنجاح | 𝐓𝐎𝐉𝐈 𝐈𝐍")
+        }, { quoted: m });
+
+    } catch (e) {
+        console.error(e);
+        m.reply("❌ حدث خطأ في الاتصال بالسيرفر، حاول مجدداً.");
+    }
 };
 
 handler.help = ['اذكار'];
 handler.tags = ['islamic'];
 handler.command = /^(اذكار|أذكار|zikr)$/i;
-handler.category = "islamic";
 
 export default handler;
 
-// دالة التنسيق الموحدة (Context) مع بيانات القناة والرسالة المحولة
 const context = (jid, title, body) => ({
     mentionedJid: [jid],
-    isForwarded: true,
     forwardingScore: 999,
+    isForwarded: true,
     forwardedNewsletterMessageInfo: {
         newsletterJid: '120363425314431422@newsletter',
         newsletterName: '𝐓𝐎𝐉𝐈 𝐈𝐍 🏮',
