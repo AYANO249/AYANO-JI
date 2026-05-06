@@ -1,20 +1,28 @@
 import axios from 'axios';
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) throw `⚠️ يرجى كتابة اسم السورة ورقم الآية\nمثال: *${usedPrefix + command} الإخلاص | 1*`;
+    if (!text) throw `⚠️ يرجى كتابة اسم السورة ورقم الآية\nمثال: *${usedPrefix + command} الإخلاص 1*`;
 
     try {
-        // مطور: يقبل الفصل بـ | أو بالمسافة
-        let [surahName, ayaNumber] = text.includes('|') ? text.split('|').map(v => v.trim()) : text.split(/ (\d+)/);
-        if (!surahName || !ayaNumber) throw `⚠️ التنسيق خاطئ.. مثال: *${usedPrefix + command} الإخلاص 1*`;
+        // ذكاء اصطناعي بسيط: استخراج الرقم من النص تلقائياً
+        let match = text.match(/(\d+)/); 
+        if (!match) throw `⚠️ يرجى تحديد رقم الآية.. مثال: *${usedPrefix + command} الفاتحة 2*`;
 
-        await m.reply(`⏳ جاري جلب الآية والتفسير...`);
+        let ayaNumber = match[0]; // الرقم المستخرج
+        let surahName = text.replace(ayaNumber, '').trim(); // اسم السورة هو كل النص ما عدا الرقم
 
-        const searchRes = await axios.get(`https://quran-endpoint.vercel.app/search?query=${encodeURIComponent(surahName.trim())}`);
-        if (!searchRes.data.results.length) return m.reply("❌ لم أتمكن من العثور على هذه السورة.");
+        if (!surahName) throw `⚠️ يرجى كتابة اسم السورة.. مثال: *${usedPrefix + command} الكوثر 1*`;
+
+        await m.reply(`⏳ جاري جلب الآية والتفسير لسورة *${surahName}*...`);
+
+        // البحث عن رقم السورة
+        const searchRes = await axios.get(`https://quran-endpoint.vercel.app/search?query=${encodeURIComponent(surahName)}`);
+        if (!searchRes.data.results.length) return m.reply("❌ لم أتمكن من العثور على سورة بهذا الاسم، تأكد من الكتابة الصحيحة.");
 
         const surahId = searchRes.data.results[0].number;
-        const tafsirRes = await axios.get(`https://quran-api-arab.vercel.app/ayats/${surahId}/${ayaNumber.trim()}`);
+        
+        // جلب التفسير والآية
+        const tafsirRes = await axios.get(`https://quran-api-arab.vercel.app/ayats/${surahId}/${ayaNumber}`);
         const data = tafsirRes.data;
 
         const msg = `
@@ -30,7 +38,8 @@ ${data.tafsir}
 
 ╭─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
 ┃ *⌯︙𝐓𝐎𝐉𝐈 𝐈𝐍 ~ 𝐒𝐘𝐒𝐓𝐄𝐌*
-╰─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╯`.trim();
+╰─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╯
+> *أَفَلَا يَتَدَبَّرُونَ الْقُرْآنَ*`.trim();
 
         await conn.sendMessage(m.chat, {
             text: msg,
@@ -38,7 +47,8 @@ ${data.tafsir}
         }, { quoted: m });
 
     } catch (e) {
-        m.reply("❌ تأكد من كتابة اسم السورة بشكل صحيح ورقم آية موجود فعلياً.");
+        console.error(e);
+        m.reply("❌ حدث خطأ.. تأكد من أن رقم الآية موجود في هذه السورة.");
     }
 };
 
@@ -49,6 +59,7 @@ handler.category = "islamic";
 
 export default handler;
 
+// دالة التنسيق الموحدة لهوية 𝐓𝐎𝐉𝐈 𝐈𝐍 كرسالة محولة
 const context = (jid, title, body) => ({
     mentionedJid: [jid],
     forwardingScore: 999,
