@@ -15,7 +15,8 @@ const CATEGORIES = [
     [12, 'الـذڪاء الإصطناعي', 'ai', 'ʚɞ'],
     [13, 'الـبوتـات الـفـࢪعية', 'sub', 'ʚɞ'],
     [14, 'مـعلومـات الـبوتـات', 'info', 'ʚɞ'],
-    [15, 'أقسام أخرى', 'other', 'ʚɞ']
+    [15, 'أقسام أخرى', 'other', 'ʚɞ'],
+    [16, 'الـإسـلامـي', 'islamic', 'ʚɞ']
 ];
 
 const getCat = n => CATEGORIES.find(c => c[0] === n);
@@ -72,7 +73,7 @@ const menu = async (m, { conn, bot }) => {
 ╭────⟞ʚɞ⟝────╮
 ┃    『 𝐓𝐎𝐉𝐈 𝐁𝐎𝐓 』
 ╰────⟞ʚɞ⟝────╮
-${CATEGORIES.map(c => `┃ ⌯︙${c[0]} ↬ قسم ${c[1]}      ʚɞ`).join('\n')}
+${CATEGORIES.map(c => `┃ ⌯︙${c[0]} ↬ قسم ${c[1]}      ${c[3]}`).join('\n')}
 ╰────⟞ʚɞ⟝────╯
 
 ✦ الرد برقم القسم لعرض الأوامر ✦
@@ -103,7 +104,6 @@ menu.before = async (m, { conn, bot }) => {
     await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, id: m.quoted.id, fromMe: true } });
     delete global.menus[m.quoted.id];
 
-    // --- معالجة الأوامر لتكون نظيفة ---
     let finalCmds = [];
     cmds.forEach(c => {
         let raw = Array.isArray(c.command) ? c.command[0] : (Array.isArray(c.usage) ? c.usage[0] : (c.command || c.usage));
