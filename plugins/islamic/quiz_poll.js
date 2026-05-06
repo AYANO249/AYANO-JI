@@ -1,22 +1,21 @@
 import axios from 'axios';
 
-// تخزين بيانات المسابقة والنقاط عالمياً
+// ذاكرة مؤقتة لحفظ حالة السؤال والنقاط
 if (!global.quizData) global.quizData = {};
 if (!global.quizPoints) global.quizPoints = {};
 
 const handler = async (m, { conn, usedPrefix, command }) => {
     let id = m.chat;
 
-    // 1. التحقق إذا كان هناك سؤال "قديم" لا يزال نشطاً في هذه الدردشة
+    // منع تكرار الأسئلة في نفس الوقت
     if (id in global.quizData) {
-        return conn.reply(m.chat, '⚠️ هناك سؤال قيد الانتظار بالفعل! أجب عليه أولاً أو انتظر انتهاء الوقت.', global.quizData[id].msg);
+        return conn.reply(m.chat, '⚠️ هناك سؤال نشط بالفعل! أجب عليه أولاً أو انتظر انتهاء الوقت.', global.quizData[id].msg);
     }
 
     try {
-        // جلب سؤال عشوائي
+        // جلب السؤال من المصدر
         const response = await axios.get('https://raw.githubusercontent.com/HoussamE/islamic-quiz-api/main/questions.json');
-        const questions = response.data;
-        const q = questions[Math.floor(Math.random() * questions.length)];
+        const q = response.data[Math.floor(Math.random() * response.data.length)];
 
         const caption = `
 ╭─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
@@ -28,21 +27,20 @@ ${q.question}
 
 ⏱️ *الوقت:* 60 ثانية للإجابة.
 💰 *الجائزة:* 1 نقطة.
-🏆 *الهدف:* أول من يجمع *10 نقاط* يفوز!
+🏆 *الهدف:* 10 نقاط للفوز باللقب.
 
 ╭─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
 ┃ *⌯︙𝐓𝐎𝐉𝐈 𝐈𝐍 ~ 𝐒𝐘𝐒𝐓𝐄𝐌*
 ╰─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╯`.trim();
 
-        // إرسال كابشن الهوية
+        // 1. إرسال الهوية (كأنها محولة)
         let msg = await conn.sendMessage(m.chat, {
             text: caption,
-            contextInfo: context(m.sender, "❓ تحدي المعلومات الإسلامية", "أجب بسرعة لتفوز بالمسابقة! | 𝐓𝐎𝐉𝐈 𝐈𝐍")
+            contextInfo: context(m.sender, "❓ تحدي المعلومات الإسلامية", "أجب الآن لتجمع النقاط! | 𝐓𝐎𝐉𝐈 𝐈𝐍")
         }, { quoted: m });
 
+        // 2. إرسال استطلاع الرأي
         let pollOptions = [q.answer, ...q.options].slice(0, 4).sort(() => Math.random() - 0.5);
-        
-        // إرسال استطلاع الرأي
         let pollMsg = await conn.sendMessage(m.chat, {
             poll: {
                 name: `🕋 ما هي الإجابة الصحيحة؟`,
@@ -51,48 +49,43 @@ ${q.question}
             }
         });
 
-        // 2. إعداد ميكانيكية "الإيقاف بعد دقيقة"
+        // 3. ضبط المؤقت (دقيقة واحدة)
         global.quizData[id] = {
             msg: msg,
-            poll: pollMsg,
             answer: q.answer,
             timeout: setTimeout(async () => {
                 if (global.quizData[id]) {
-                    // إذا مرّت دقيقة (60 ثانية) ولم يجاوب أحد
                     await conn.sendMessage(m.chat, { 
-                        text: `⌛ *انتهى الوقت (60 ثانية)!*\nتم إيقاف المسابقة لعدم وجود تفاعل.\n\n✅ الإجابة الصحيحة كانت: *${q.answer}*`,
+                        text: `⌛ *انتهى الوقت!* لعدم وجود تفاعل كافٍ.\n\n✅ الإجابة الصحيحة: *${q.answer}*`,
                         edit: msg.key 
                     });
-                    
-                    // تنظيف البيانات للسماح بسؤال "جديد"
                     delete global.quizData[id];
                 }
-            }, 60000) // 60 ثانية
+            }, 60000) 
         };
 
     } catch (e) {
         console.error(e);
         delete global.quizData[id];
-        m.reply("❌ حدث خطأ أثناء تشغيل المسابقة.");
+        m.reply("❌ حدث خطأ، حاول مجدداً.");
     }
 };
 
 handler.help = ['سؤال'];
 handler.tags = ['islamic'];
 handler.command = /^(سؤال|quiz)$/i;
-handler.category = "islamic";
 
 export default handler;
 
-// دالة التنسيق الموحدة (Context) مع بيانات القناة والـ JID الجديد
+// دالة التنسيق الموحدة لهوية 𝐓𝐎𝐉𝐈 𝐈𝐍
 const context = (jid, title, body) => ({
     mentionedJid: [jid],
+    forwardingScore: 999,
     isForwarded: true,
-    forwardingScore: 1,
     forwardedNewsletterMessageInfo: {
         newsletterJid: '120363425314431422@newsletter',
         newsletterName: '𝐓𝐎𝐉𝐈 𝐈𝐍 🏮',
-        serverMessageId: 0
+        serverMessageId: 143
     },
     externalAdReply: {
         title: title,
