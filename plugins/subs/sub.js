@@ -29,9 +29,9 @@ if (subBots.list().length >= 30) {
     const handlers = {
       pair: (id, code) => {
         if (state.pairDone) return;
-        if (!state.uid) { 
-          state.pending = { id, code }; 
-          return; 
+        if (!state.uid) {
+          state.pending = { id, code };
+          return;
         }
         if (id !== state.uid) return;
         state.pairDone = true;
@@ -85,17 +85,17 @@ export default run;
 const Func = {
   pair: async (conn, code, num, m, reply_status) => {
     await conn.sendButton(m.chat, {
-      imageUrl: "https://i.pinimg.com/736x/20/c1/cd/20c1cd046c862caa5a42e07d00042357.jpg",
+      imageUrl: "https://i.ibb.co/RkVbNgdz/IMG-20260429-WA0040.jpg",
       bodyText: `🔐⤿ نـظـام الـبـوتـات الـفـرعـيـه 𑁍
 ⊱⋅ ──────────── ⋅⊰
 📱 — الرقم: ${num}
 🔑 — الكود: ${code}
 ⊱⋅ ──────────── ⋅⊰
 > *_افتح واتساب > الأجهزة المرتبطة > ربط جهاز برقم الهاتف > أدخل الكود_*`,
-      footerText: "@𝑺𝒚𝒔𝒕𝒆𝒎_𝑺𝒖𝒃𝑩𝒐𝒕𝒔_𝑽𝑰𝑰",
+      footerText: "𝑺𝒚𝒔𝒕𝒆𝒎_𝑺𝒖𝒃𝑩𝒐𝒕𝒔_𝐓𝐎𝐉𝐈",
       buttons: [
         { name: "cta_copy", params: { display_text: "⟨⚜️| 𝐂𝐨𝐩𝐲 𝐂𝐨𝐝𝐞 |⚜️⟩", copy_code: code } },
-        { name: "cta_url", params: { display_text: "⟨🫒| 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 𝐓𝐎𝐉𝐈 |🫒⟩", url: "https://google.com" } },
+        { name: "cta_url", params: { display_text: "⟨�| 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 𝐓𝐎𝐉𝐈 |�⟩", url: "https://google.com" } },
       ],
       mentions: [m.sender],
       newsletter: {
@@ -104,7 +104,7 @@ const Func = {
       },
       interactiveConfig: {
         buttons_limits: 10,
-        list_title: "@𝑺𝒚𝒔𝒕𝒆𝒎_𝑺𝒖𝒃𝑩𝒐𝒕𝒔_𝐓𝐎𝐉𝐈",
+        list_title: "𝑺𝒚𝒔𝒕𝒆𝒎_𝑺𝒖𝒃𝑩𝒐𝒕𝒔_𝐓𝐎𝐉𝐈",
         button_title: "Click Here",
         canonical_url: `https://code.com/${code}`
       }
@@ -139,4 +139,3 @@ const Func = {
     );
   }
 };
-
