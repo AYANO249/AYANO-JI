@@ -12,24 +12,30 @@ const handler = async (m, { conn, usedPrefix, command }) => {
         "اللهم صل وسلم وبارك على نبينا محمد وعلى آله وصحبه أجمعين. (10 مرات)"
     ];
 
-    const randomZikr = azkarList[Math.floor(Math.random() * azkarList.length)];
+    await m.reply(`⏳ جاري إرسال جميع الأذكار...`);
 
-    const caption = `
+    // إرسال كل ذكر في القائمة بشكل متتابع
+    for (const zikr of azkarList) {
+        const caption = `
 ╭─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
 ┃    『 *ذِكْـرٌ وَدُعَـاء* 』
 ╰─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
 
-${randomZikr}
+${zikr}
 
 ╭─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
 ┃ *⌯︙𝐓𝐎𝐉𝐈 𝐈𝐍 ~ 𝐒𝐘𝐒𝐓𝐄𝐌*
 ╰─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╯
 > *أَلا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ*`.trim();
 
-    await conn.sendMessage(m.chat, {
-        text: caption,
-        contextInfo: context(m.sender, "🕋 الأذكار اليومية", "تذكير بذكر الله | 𝐓𝐎𝐉𝐈 𝐈𝐍")
-    }, { quoted: m });
+        await conn.sendMessage(m.chat, {
+            text: caption,
+            contextInfo: context(m.sender, "🕋 الأذكار اليومية", "تذكير بذكر الله | 𝐓𝐎𝐉𝐈 𝐈𝐍")
+        }, { quoted: m });
+        
+        // تأخير بسيط جداً بين الرسائل لتجنب الحظر أو ضغط الإرسال
+        await new Promise(resolve => setTimeout(resolve, 500));
+    }
 };
 
 handler.help = ['اذكار'];
@@ -44,14 +50,14 @@ const context = (jid, title, body) => ({
     isForwarded: true,
     forwardingScore: 1,
     forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363407991526193@newsletter',
-        newsletterName: '𝐈𝐍 | 𝐃𝐀𝐒𝐇',
+        newsletterJid: '120363425314431422@newsletter',
+        newsletterName: '𝐓𝐎𝐉𝐈 𝐈𝐍 🏮',
         serverMessageId: 0
     },
     externalAdReply: {
         title: title,
         body: body,
-        thumbnailUrl: 'https://i.pinimg.com/736x/cf/66/94/cf6694258ca9839b43bdaf415c6c56fc.jpg',
+        thumbnailUrl: 'https://i.ibb.co/r2CKLTLT/a27eefa4ae6dce04e9a0a7bd506e2a7f.jpg',
         sourceUrl: 'https://whatsapp.com/channel/0029VbD2uOa6rsQqt4yQQW0Y',
         mediaType: 1,
         renderLargerThumbnail: true
