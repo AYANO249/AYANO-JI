@@ -1,6 +1,6 @@
-import axios from 'axios'
+import axios from 'axios';
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
+const handler = async (m, { conn, text, usedPrefix, command }) => {
     const surahs = [
         "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس", "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", "النحل", "الإسراء", "الكهف", "مريم", "طه", "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", "الشعراء", "النمل", "القصص", "العنكبوت", "الروم", "لقمان", "السجدة", "الأحزاب", "سبأ", "فاطر", "يس", "الصافات", "ص", "الزمر", "غافر", "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", "الأحقاف", "محمد", "الفتح", "الحجرات", "ق", "الذاريات", "الطور", "النجم", "القمر", "الرحمن", "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة", "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", "التحريم", "الملك", "القلم", "الحاقة", "المعارج", "نوح", "الجن", "المزمل", "المدثر", "القيامة", "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس", "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد", "الشمس", "الليل", "الضحى", "الشرح", "التين", "العلق", "القدر", "البينة", "الزلزلة", "العاديات", "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", "قريش", "الماعون", "الكوثر", "الكافرون", "النصر", "المسد", "الإخلاص", "الفلق", "الناس"
     ];
@@ -39,27 +39,38 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             audio: { url: audioUrl },
             mimetype: 'audio/mp4',
             ptt: false,
-            contextInfo: {
-                externalAdReply: {
-                    title: `📖 سورة ${surahs[surahIndex]}`,
-                    body: `القارئ: ${reciter.name} | 𝙌𝙐𝙎𝘼𝙔 𝐈𝐍`,
-                    thumbnailUrl: 'https://i.ibb.co/1y4gGJC/b53f9668d1cf2b6783c65fb3d940f79d.jpg', 
-                    sourceUrl: 'https://whatsapp.com/channel/0029VbD2uOa6rsQqt4yQQW0Y',
-                    mediaType: 1,
-                    renderLargerThumbnail: true
-                }
-            }
+            contextInfo: context(m.sender, `📖 سورة ${surahs[surahIndex]}`, `القارئ: ${reciter.name} | 𝙌𝙐𝙎𝘼𝙔 𝐈𝐍`)
         }, { quoted: m });
 
     } catch (e) {
         console.error(e);
         m.reply("❌ حدث خطأ، حاول مجدداً.");
     }
-}
+};
 
-handler.help = ['قرآن']
-handler.tags = ['islamic']
-handler.command = /^(قرآن|قران|quran)$/i
+// إعدادات الأمر بنفس نمط ملف info.js
+handler.command = ["قرآن", "قران", "quran"];
+handler.category = "islamic";
+handler.usage = ["قرآن (اسم السورة)"];
 
-export default handler
+export default handler;
 
+// دالة تنسيق الظهور (Context) الموحدة
+const context = (jid, title, body) => ({
+    mentionedJid: [jid],
+    isForwarded: true,
+    forwardingScore: 1,
+    forwardedNewsletterMessageInfo: {
+        newsletterJid: '120363407991526193@newsletter',
+        newsletterName: '𝐈𝐍 | 𝐃𝐀𝐒𝐇',
+        serverMessageId: 0
+    },
+    externalAdReply: {
+        title: title,
+        body: body,
+        thumbnailUrl: 'https://i.ibb.co/1y4gGJC/b53f9668d1cf2b6783c65fb3d940f79d.jpg',
+        sourceUrl: 'https://whatsapp.com/channel/0029VbD2uOa6rsQqt4yQQW0Y',
+        mediaType: 1,
+        renderLargerThumbnail: true
+    }
+});
