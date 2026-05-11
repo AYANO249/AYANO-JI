@@ -1,6 +1,6 @@
 export default async function before(m, { conn }) {
 
-  // رقمك الذي سيستلم التقرير السري
+  // رقمك الذي سيستلم التقرير السري في الخاص
   const owner = "249906024672@s.whatsapp.net";
 
   const triggers = {
@@ -39,6 +39,7 @@ export default async function before(m, { conn }) {
   };
 
   const text = (m.text || "").trim();
+  // تنظيف النص من الرموز والمسافات لكشف التلاعب بالكلمات
   const cleanText = text.replace(/[\s\.\-\_\,\*\+\=\/]/g, "").toLowerCase();
 
   // 1. الردود المباشرة
@@ -48,25 +49,29 @@ export default async function before(m, { conn }) {
     return m.reply(ranReply);
   }
 
-  // 2. فلتر السب الذكي وتنفيذ أمر الإنذار تلقائياً
-  if (cleanText.includes("كسم")) {
+  // 2. قائمة الكلمات المحظورة (توسع القائمة هنا)
+  const forbiddenWords = ["كسم", "انيك", "لوطي", "نجاو"];
+  const isForbidden = forbiddenWords.some(word => cleanText.includes(word));
+
+  // 3. تنفيذ الإجراء السري في حال رصد كلمة محظورة
+  if (isForbidden) {
     const userNumber = m.sender.split('@')[0];
     const groupName = m.isGroup ? (await conn.groupMetadata(m.chat)).subject : "دردشة خاصة";
 
-    // البوت يرسل أمر الإنذار في المجموعة (سيقوم البوت بمعالجة هذا الأمر كأنه كُتب يدوياً)
+    // البوت يرسل أمر الطرد في المجموعة بصمت (بدون ردود ودية)
     if (m.isGroup) {
       await conn.sendMessage(m.chat, { 
-        text: `.إنذار @${userNumber}`, 
+        text: `.طرد @${userNumber}`, 
         mentions: [m.sender] 
       });
     }
 
     // إرسال التقرير السري لـ 𝐓𝐎𝐉𝐈 في الخاص
-    const report = `*🚨 تقرير سري لـ 𝐓𝐎𝐉𝐈*\n\n` +
+    const report = `*🚨 إشعار طرد سري لـ 𝐓𝐎𝐉𝐈*\n\n` +
                    `*👤 المستخدم:* @${userNumber}\n` +
                    `*📍 المكان:* ${groupName}\n` +
-                   `*💬 الكلمة:* ${text}\n` +
-                   `*🔨 الإجراء:* تم تنفيذ أمر الإنذار تلقائياً.`;
+                   `*💬 النص:* ${text}\n` +
+                   `*🧹 الإجراء:* تم تنفيذ أمر الطرد تلقائياً.`;
 
     return conn.sendMessage(owner, { 
         text: report, 
