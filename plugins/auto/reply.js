@@ -1,6 +1,5 @@
-export default async function before(m, { conn }) {
+export default async function before(m, { conn, participants }) {
 
-  // رقمك الذي سيستلم التقرير السري في الخاص
   const owner = "249906024672@s.whatsapp.net";
 
   const triggers = {
@@ -39,44 +38,61 @@ export default async function before(m, { conn }) {
   };
 
   const text = (m.text || "").trim();
-  // تنظيف النص من الرموز والمسافات لكشف التلاعب بالكلمات
-  const cleanText = text.replace(/[\s\.\-\_\,\*\+\=\/]/g, "").toLowerCase();
+  const cleanText = text.toLowerCase().replace(/[\s._,*/+=-]/g, "");
 
-  // 1. الردود المباشرة
-  const replies = triggers[text];
-  if (replies) {
-    const ranReply = replies[Math.floor(Math.random() * replies.length)];
-    return m.reply(ranReply);
+  // ===== [1] نظام الردود التلقائية =====
+  if (triggers[text]) {
+    const replies = triggers[text];
+    const reply = replies[Math.floor(Math.random() * replies.length)];
+    return m.reply(reply);
   }
 
-  // 2. قائمة الكلمات المحظورة (توسع القائمة هنا)
+  // ===== [2] نظام الكلمات المحظورة (الطرد الصامت) =====
   const forbiddenWords = ["كسم", "انيك", "لوطي", "نجاو"];
-  const isForbidden = forbiddenWords.some(word => cleanText.includes(word));
+  const isForbidden = forbiddenWords.some(w => cleanText.includes(w));
 
-  // 3. تنفيذ الإجراء السري في حال رصد كلمة محظورة
   if (isForbidden) {
-    const userNumber = m.sender.split('@')[0];
-    const groupName = m.isGroup ? (await conn.groupMetadata(m.chat)).subject : "دردشة خاصة";
+    const sender = m.sender;
+    const isOwner = sender === owner || m.fromMe;
+    
+    // فحص رتبة المشرف
+    const senderData = participants.find(p => p.id === sender);
+    const isAdmin = senderData?.admin;
 
-    // البوت يرسل أمر الطرد في المجموعة بصمت (بدون ردود ودية)
-    if (m.isGroup) {
-      await conn.sendMessage(m.chat, { 
-        text: `.طرد @${userNumber}`, 
-        mentions: [m.sender] 
-      });
-    }
+    // استثناء المطور والمشرفين
+    if (isOwner || isAdmin) return false;
 
-    // إرسال التقرير السري لـ 𝐓𝐎𝐉𝐈 في الخاص
-    const report = `*🚨 إشعار طرد سري لـ 𝐓𝐎𝐉𝐈*\n\n` +
-                   `*👤 المستخدم:* @${userNumber}\n` +
-                   `*📍 المكان:* ${groupName}\n` +
-                   `*💬 النص:* ${text}\n` +
-                   `*🧹 الإجراء:* تم تنفيذ أمر الطرد تلقائياً.`;
+    // فحص صلاحية البوت
+    const botData = participants.find(p => p.id === conn.user.jid);
+    const botAdmin = botData?.admin;
 
-    return conn.sendMessage(owner, { 
+    if (!botAdmin) return false;
+
+    try {
+      // تنفيذ الطرد البرمجي الصامت
+      await conn.groupParticipantsUpdate(m.chat, [sender], "remove");
+
+      // إرسال التقرير السري لـ 𝐐𝐔𝐒𝐀𝐘 (𝐓𝐎𝐉𝐈)
+      const userNumber = sender.split("@")[0];
+      const groupMetadata = m.isGroup ? await conn.groupMetadata(m.chat) : null;
+      const groupName = groupMetadata ? groupMetadata.subject : "خاص";
+
+      const report = 
+`🚨 طرد صامت - 𝐓𝐎𝐉𝐈 𝐁𝐎𝐓
+
+👤 المستخدم: @${userNumber}
+📍 المجموعة: ${groupName}
+💬 الرسالة: ${text}
+🧹 الحالة: تم التطهير بنجاح.`;
+
+      await conn.sendMessage(owner, { 
         text: report, 
-        mentions: [m.sender] 
-    });
+        mentions: [sender] 
+      });
+
+    } catch (e) {
+      console.error("Kick Error:", e);
+    }
   }
 
   return false;
