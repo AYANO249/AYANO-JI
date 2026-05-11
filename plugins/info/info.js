@@ -65,7 +65,7 @@ const handler = async (m, { conn, bot, config }) => {
       // ملاحظة: تأكد أن متغير reply_status معرف عندك، إذا لم يعمل استبدله بـ m
       await conn.sendMessage(m.chat, {
         text: msg,
-        contextInfo: context(m.sender, "https://i.ibb.co/GvXH1tNj/ac321af909b59b373cf93b6c235f733e.jpg") 
+        contextInfo: context(m.sender, "https://i.ibb.co/TqBc4Z5T/973393d537b4eaa94c2e75f211856340-edit-874758833994646.jpg") 
       }, { quoted: m }); 
 
   } catch (e) {
