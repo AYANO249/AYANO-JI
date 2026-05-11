@@ -41,12 +41,12 @@ const context = (jid, img) => ({
     forwardingScore: 1,
     forwardedNewsletterMessageInfo: {
         newsletterJid: '120363407991526193@newsletter',
-        newsletterName: '𝐈𝐍 | 𝐃𝐀𝐒𝐇',
+        newsletterName: '𝐈𝐍 | 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈',
         serverMessageId: 0
     },
     externalAdReply: {
-        title: "𝐓𝐎𝐉𝐈 𝐈𝐍 🏮 | 𝐁𝐨𝐭 𝐒𝐲𝐬𝐭𝐞𝐦",
-        body: "𝚃𝙾𝙹𝙸 𝙱𝙾𝚃 𝙸𝚂 𝙰 𝙱𝙴𝚂𝚃",
+        title: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐈𝐍 🏮 | 𝐁𝐨𝐭 𝐒𝐲𝐬𝐭𝐞𝐦",
+        body: "𝙰𝚈𝙰𝙽𝙾 𝙹𝙸 𝙱𝙾𝚃 𝙸𝚂 𝙰 𝙱𝙴𝚂𝚃",
         thumbnailUrl: img,
         sourceUrl: 'https://whatsapp.com/channel/0029VbD2uOa6rsQqt4yQQW0Y',
         mediaType: 1,
@@ -71,13 +71,13 @@ const menu = async (m, { conn, bot }) => {
 وَأَعُوذُ بِكَ مِنْ سَخَطِكَ وَالنَّارِ
 
 ╭────⟞ʚɞ⟝────╮
-┃    『 𝐓𝐎𝐉𝐈 𝐁𝐎𝐓 』
-╰────⟞ʚɞ⟝────╮
+┃    『 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐁𝐎𝐓 』
+╭────⟞ʚɞ⟝────╮
 ${CATEGORIES.map(c => `┃ ⌯︙${c[0]} ↬ قسم ${c[1]}      ${c[3]}`).join('\n')}
 ╰────⟞ʚɞ⟝────╯
 
 ✦ الرد برقم القسم لعرض الأوامر ✦
-𝐓𝐎𝐉𝐈 𝐈𝐍 🏮`;
+𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐈𝐍 🏮`;
 
     const msg = await conn.sendMessage(m.chat, {
         text: txt,
@@ -122,12 +122,12 @@ menu.before = async (m, { conn, bot }) => {
         text: `
 ╭────⟞${cat[3]}⟝────╮
 ┃    『 قـسـم ${cat[1]} 』
-╰────⟞${cat[3]}⟝────╮
+╭────⟞${cat[3]}⟝────╮
 
 ${cmdsList}
 
-╰────⟞${cat[3]}⟝────╮
-┃ *⌯︙𝐓𝐎𝐉𝐈 𝐈𝐍 ~ 𝐒𝐘𝐒𝐓𝐄𝐌*
+╭────⟞${cat[3]}⟝────╮
+┃ *⌯︙𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐈𝐍 ~ 𝐒𝐘𝐒𝐓𝐄𝐌*
 ╰────⟞${cat[3]}⟝────╯
 > *رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا*`.trim(),
         contextInfo: context(m.sender, getImg(bot))
