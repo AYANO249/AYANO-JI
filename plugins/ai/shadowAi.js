@@ -41,12 +41,12 @@ const context = (jid, img) => ({
     forwardingScore: 1,
     forwardedNewsletterMessageInfo: {
         newsletterJid: '120363425314431422@newsletter',
-        newsletterName: '𝐃𝐄𝐕 𝙎𝙃𝘼𝘿𝙊𝙒 🌑',
+        newsletterName: '𝐃𝐄𝐕 𝐒𝐇𝐀𝐃𝐎𝐖🌑',
         serverMessageId: 0
     },
     externalAdReply: {
-        title: "𝐄𝐌𝐈𝐍𝐄𝐍𝐂𝐄 𝐈𝐍 𝐓𝐎𝐉𝐈 🌑",
-        body: "انضم إلى القناة الرسمية للمؤسس قصي",
+        title: "𝐄𝐌𝐈𝐍𝐄𝐍𝐂𝐄 𝐈𝐍 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈  🌑",
+        body: "انضم إلى القناة الرسمية للمؤسس أيانو جي",
         thumbnailUrl: img,
         sourceUrl: 'https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X',
         mediaType: 1,
