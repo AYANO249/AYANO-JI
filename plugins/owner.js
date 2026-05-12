@@ -1,31 +1,43 @@
 let handler = async (m, { conn, bot }) => {
+
   // الاسم بالخط المنسق
-  let watermark = '𝐓𝐎𝐉𝐈';
-  
-  // رسالة الاقتباس بدون قلوب وبالخط المنسق
+  let watermark = '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈';
+
+  // رسالة الاقتباس
   let quoted = {
-    key: { fromMe: false, participant: '0@s.whatsapp.net', remoteJid: 'status@broadcast' },
-    message: { conversation: '𝐈𝐍 𝐓𝐎𝐉𝐈' }
+    key: {
+      fromMe: false,
+      participant: '0@s.whatsapp.net',
+      remoteJid: 'status@broadcast'
+    },
+    message: {
+      conversation: '𝐈𝐍 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈'
+    }
   };
 
-  // رقمك الخاص الذي طلبته
+  // رقم المطور
   const num = "249906024672";
-  
+
   let vcard = `BEGIN:VCARD
 VERSION:3.0
 FN:${watermark}
 TEL;type=CELL;waid=${num}:+${num}
 END:VCARD`;
 
-  // رابط الصورة الجديدة التي أرسلتها
-  let img = 'https://i.ibb.co/q3MpTLzp/99fa210d6f0a7c0c7c48038973877064.jpg';
-  
+  // الصورة الجديدة
+  let img = 'https://i.ibb.co/mCMhR5sW/8b20ef0dd82f7e0a3bbef077d428c536.jpg';
+
   await conn.sendMessage(m.chat, {
-    contacts: { displayName: watermark, contacts: [{ vcard }] },
+    contacts: {
+      displayName: watermark,
+      contacts: [{ vcard }]
+    },
+
     contextInfo: {
       forwardingScore: 2026,
+
       externalAdReply: {
-        title: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕',
+        title: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐃𝐄𝐕',
         body: 'الـمـطـور الـرسـمـي',
         sourceUrl: 'https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X',
         thumbnailUrl: img,
@@ -34,10 +46,11 @@ END:VCARD`;
         renderLargerThumbnail: true
       }
     }
-  }, { quoted })
+
+  }, { quoted });
+
 };
 
-handler.command = /^(owner|مطور|المطور|توجي)$/i;
+handler.command = /^(owner|مطور|المطور|ايانو|أيانو)$/i;
 
 export default handler;
-
