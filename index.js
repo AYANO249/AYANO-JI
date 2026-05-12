@@ -1,4 +1,4 @@
-import { Client } from 'meowsab';
+port { Client } from 'meowsab';
 import { group, access } from "./system/control.js";
 import UltraDB from "./system/UltraDB.js";
 import sub from './sub.js';
@@ -12,7 +12,7 @@ const client = new Client({
   // Owner 1
     { name: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈", lid: "247579682029763@lid", jid: "2250778788908@s.whatsapp.net" },
   // Owner 2
-    { name: "𝐃𝐄𝐕", lid: "221307316789354@lid", jid: "249906024672@s.whatsapp.net" },
+    { name: "𝙌𝙐𝙎𝘼𝙔", lid: "221307316789354@lid", jid: "249906024672@s.whatsapp.net" },
   // Owner 3
     { name: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈", jid: "201033024135@s.whatsapp.net", lid: "50414477168824@lid" }
   ],
@@ -32,7 +32,7 @@ if (!global.db) {
 const { config } = client;
 config.info = {
   nameBot: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 〈", 
-  nameChannel: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐃𝐄𝐕",
+  nameChannel: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈",
   idChannel: "120363425314431422@newsletter", 
   urls: {
     repo: "https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X", 
