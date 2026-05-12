@@ -1,20 +1,20 @@
 y
 const CATEGORIES = [
-    [1, 'الـتـحـمـيـل', 'downloads', '🌀'],
-    [2, 'الـمـجـمـوعـات', 'group', '🌸'],
-    [3, 'الـمـلـصـقـات', 'sticker', '🔮'],
-    [4, 'الـمـطـوريـن', 'owner', '⚜️'],
-    [5, 'الأمـثـلـة', 'example', '💠'],
-    [6, 'الأدوات', 'tools', '📜'],
-    [7, 'الـبـحـث', 'search', '🔍'],
-    [8, 'الـمـشـرفـيـن', 'admin', '✨'],
-    [9, 'الألـعـاب', 'games', '🎮'],
-    [10, 'الـجـيـف', 'gif', '💮'],
-    [11, 'الـبـنـك', 'bank', '💰'],
-    [12, 'الـذكـاء الاصـطـنـاعـي', 'ai', '⚙️'],
-    [13, 'الـبـوتـات الـفـرعـيـة', 'sub', '🏮'],
-    [14, 'مـعـلومـات الـبـوت', 'info', '🧧'],
-    [15, 'أقـسـام أخــرى', 'other', '🧸']
+    [1, 'الـتـحـمـيـل', 'downloads', 'ʚɞ'],
+    [2, 'الـمـجـمـوعـات', 'group', 'ʚɞ'],
+    [3, 'الـمـلـصـقـات', 'sticker', 'ʚɞ'],
+    [4, 'الـمـطـوريـن', 'owner', 'ʚɞ'],
+    [5, 'الأمـثـلـة', 'example', 'ʚɞ'],
+    [6, 'الأدوات', 'tools', 'ʚɞ'],
+    [7, 'الـبـحـث', 'search', 'ʚɞ'],
+    [8, 'الـمـشـرفـيـن', 'admin', 'ʚɞ'],
+    [9, 'الألـعـاب', 'games', 'ʚɞ'],
+    [10, 'الـجـيـف', 'gif', 'ʚɞ'],
+    [11, 'الـبـنـك', 'bank', 'ʚɞ'],
+    [12, 'الـذكـاء الاصـطـنـاعـي', 'ai', 'ʚɞ'],
+    [13, 'الـبـوتـات الـفـرعـيـة', 'sub', 'ʚɞ'],
+    [14, 'مـعـلومـات الـبـوت', 'info', 'ʚɞ'],
+    [15, 'أقـسـام أخــرى', 'other', 'ʚɞ']
 ];
 
 const getCat = n => CATEGORIES.find(c => c[0] === n);
@@ -30,11 +30,11 @@ const context = (jid, img) => ({
     forwardingScore: 1,
     forwardedNewsletterMessageInfo: {
         newsletterJid: '120363425314431422@newsletter',
-        newsletterName: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕',
+        newsletterName: '𝐈𝐍 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈',
         serverMessageId: 0
     },
     externalAdReply: {
-        title: "𝐈𝐍 𝐓𝐎𝐉𝐈 | 𝐁𝐨𝐭 𝐢𝐬 𝐛𝐮𝐢𝐥𝐭 𝐨𝐧 𝐭𝐡𝐞 𝐖𝐒/𝐕𝐈𝐈 𝐟𝐫𝐚𝐦𝐞𝐰𝐨𝐫𝐤",
+        title: "𝐈𝐍 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 | 𝐁𝐨𝐭 𝐢𝐬 𝐛𝐮𝐢𝐥𝐭 𝐨𝐧 𝐭𝐡𝐞 𝐖𝐒/𝐕𝐈𝐈 𝐟𝐫𝐚𝐦𝐞𝐰𝐨𝐫𝐤",
         body: "𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙 𝚋𝚘𝚝 𝚝𝚑𝚊𝚝 𝚒𝚜 𝚎𝚊𝚜𝚢 𝚝𝚘 𝚖𝚘𝚍𝚒𝚏𝚢 𝚊𝚗𝚍 𝚟𝚎𝚛𝚢 𝚏𝚊𝚜𝚝",
         thumbnailUrl: img,
         sourceUrl: '',
@@ -56,7 +56,7 @@ const uptimeFormatted = `${String(hours).padStart(2, '0')}:${String(minutes).pad
     
     if (!selected && !args[0]) {
         const sections = [{
-            title: "🌳 ~ الاقـسـام ~ 🪾",
+            title: "ʚɞ ~ الاقـسـام ~ ʚɞ",
             rows: CATEGORIES.map(c => ({
                 title: `${c[0]} ~ ${c[1]} ${c[3]}`,
                 description: `اضغط لعرض أوامر قسم ${c[1]}`,
@@ -81,13 +81,13 @@ const uptimeFormatted = `${String(hours).padStart(2, '0')}:${String(minutes).pad
             buttons: [{
                 name: "single_select",
                 params: {
-                    title: "⚜️🧧",
+                    title: "ʚɞ",
                     sections: sections
                 }
             }],
             mentions: [m.sender],
             newsletter: {
-                name: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕',
+                name: '𝐈𝐍 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈',
                 jid: '120363425314431422@newsletter'
             }
         }, global.reply_status);
