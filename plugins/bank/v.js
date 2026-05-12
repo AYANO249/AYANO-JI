@@ -46,11 +46,11 @@ const handler = async (m, { conn, command, text }) => {
                 forwardingScore: 1,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363425314431422@newsletter',
-                    newsletterName: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕',
+                    newsletterName: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐃𝐄𝐕',
                     serverMessageId: 0
                 },
                 externalAdReply: {
-                    title: "𝐈𝐍 𝐓𝐎𝐉𝐈  | عـالـم الـجـوجـتسـو",
+                    title: "𝐈𝐍 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈  | عـالـم الـجـوجـتسـو",
                     body: "تـسـجـيـل جـديـد فـي عـالـم الجوجتسو🏮",
                     thumbnailUrl: profilePic,
                     sourceUrl: '',
@@ -91,11 +91,11 @@ const handler = async (m, { conn, command, text }) => {
                 forwardingScore: 1,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363425314431422@newsletter',
-                    newsletterName: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕',
+                    newsletterName: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐃𝐄𝐕',
                     serverMessageId: 0
                 },
                 externalAdReply: {
-                    title: "𝐈𝐍 𝐓𝐎𝐉𝐈 🕷 |عـالـم الـجـوجـتسو",
+                    title: "𝐈𝐍 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 🕷 |عـالـم الـجـوجـتسو",
                     body: "تـم حـذف الـتـسـجـيـل",
                     thumbnailUrl: profilePic,
                     sourceUrl: '',

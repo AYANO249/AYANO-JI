@@ -1,19 +1,19 @@
 /* 
-by: VA ~ 𝐓𝐎𝐉𝐈
+by: VA ~ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈
 */
 
 const example = async (m, { conn }) => {
 
 conn.msgUrl(m.chat,
-  '*𝐓𝐎𝐉𝐈 𝐁𝐎𝐓 𝐈𝐒 𝐖𝐎𝐑𝐊𝐈𝐍𝐆 𝐍𝐎𝐖*',
+  '*𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐁𝐎𝐓 𝐈𝐒 𝐖𝐎𝐑𝐊𝐈𝐍𝐆 𝐍𝐎𝐖*',
   {
     img: 'https://example.com/promo.jpg',
     title: '50% OFF',
-    body: 'Limited time𝐓𝐎𝐉𝐈 𝐁𝐎𝐓 𝐈𝐒 𝐁𝐄𝐒𝐓 || 𝐅𝐀𝐒𝐓',
+    body: 'Limited time𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐁𝐎𝐓 𝐈𝐒 𝐁𝐄𝐒𝐓 || 𝐅𝐀𝐒𝐓',
     big: true,
     mentions: ['249906024672@s.whatsapp.net', '2250778788908@s.whatsapp.net'],
     newsletter: {
-      name: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕',
+      name: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐃𝐄𝐕',
       jid: '120363425314431422@newsletter'
     }
   },

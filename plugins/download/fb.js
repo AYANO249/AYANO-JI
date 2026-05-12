@@ -10,7 +10,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const result = await fbdown(text);
     if (!result || !result.url) throw '❌ فشل الحصول على رابط الفيديو';
 
-    const caption = `> *تم بواسطة ~ 𝐓𝐎𝐉𝐈 𝐃𝐄𝐕*`;
+    const caption = `> *تم بواسطة ~ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐃𝐄𝐕*`;
 
     await conn.sendMessage(m.chat, {
       video: { url: result.url },

@@ -79,19 +79,19 @@ const Func = {
       // تم وضع رابط الصورة الجديد هنا
       imageUrl: "https://i.ibb.co/RkVbNgdz/IMG-20260429-WA0040.jpg",
       bodyText: `🔐⤿ نـظـام الـبـوتـات الـفـرعـيـه 𑁍\n⊱⋅ ──────────── ⋅⊰\n📱 — الرقم: ${num}\n🔑 — الكود: ${code}\n⊱⋅ ──────────── ⋅⊰\n> *_افتح واتساب > الأجهزة المرتبطة > ربط جهاز برقم الهاتف > أدخل الكود_*`,
-      footerText: "© 𝐒𝐲𝐬𝐭𝐞𝐦 𝐒𝐮𝐛𝐁𝐨𝐭𝐬 𝐓𝐎𝐉𝐈",
+      footerText: "© 𝐒𝐲𝐬𝐭𝐞𝐦 𝐒𝐮𝐛𝐁𝐨𝐭𝐬 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈",
       buttons: [
         { name: "cta_copy", params: { display_text: "⟨⚜️| 𝐂𝐨𝐩𝐲 𝐂𝐨𝐝𝐞 |⚜️⟩", copy_code: code } },
-        { name: "cta_url", params: { display_text: "⟨📢| 𝐂𝐡𝐚𝐧 n e l 𝐓𝐎𝐉𝐈 |⟩", url: "https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X" } },
+        { name: "cta_url", params: { display_text: "⟨📢| 𝐂𝐡𝐚𝐧 n e l 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 |⟩", url: "https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X" } },
       ],
       mentions: [m.sender],
       newsletter: {
-        name: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕',
+        name: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐃𝐄𝐕',
         jid: '120363425314431422@newsletter'
       },
       interactiveConfig: {
         buttons_limits: 10,
-        list_title: "𝐓𝐎𝐉𝐈 𝐒𝐘𝐒𝐓𝐄𝐌",
+        list_title: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐒𝐘𝐒𝐓𝐄𝐌",
         button_title: "Click Here",
         // الرابط المحدث لضمان معاينة صحيحة باسم قناتك
         canonical_url: `https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X`
@@ -102,10 +102,10 @@ const Func = {
   ready: async (conn, num, m, img) => {
     await m.react("✅");
     await conn.sendMessage(m.chat, {
-      text: `✅ — *تـم الاتـصـال بـنـجـاح*\n\n📱 الرقم: ${num}\n> *بـوت 𝐓𝐎𝐉𝐈 جـاهـز للاسـتـخـدام الآن*`,
+      text: `✅ — *تـم الاتـصـال بـنـجـاح*\n\n📱 الرقم: ${num}\n> *بـوت 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 جـاهـز للاسـتـخـدام الآن*`,
       contextInfo: {
         externalAdReply: {
-          title: "𝐓𝐎𝐉𝐈 | 𝐁𝐨𝐭 𝐂𝐨 n n e c t e d",
+          title: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 | 𝐁𝐨𝐭 𝐂𝐨 n n e c t e d",
           body: "نظام البوتات الفرعية الأسرع والأكثر استقراراً",
           thumbnailUrl: img,
           sourceUrl: 'https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X',

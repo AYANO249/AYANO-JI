@@ -72,7 +72,7 @@ const handler = async (m, { conn, command }) => {
             forwardingScore: 1,
             forwardedNewsletterMessageInfo: {
                 newsletterJid: '120363425314431422@newsletter',
-                newsletterName: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕',
+                newsletterName: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐃𝐄𝐕',
                 serverMessageId: 0
             }
         }

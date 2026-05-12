@@ -29,7 +29,7 @@ handler.before = async (m, { conn }) => {
     );
 
     return conn.sendMessage(m.chat, {
-      text: `✅ تم قبول @${user.split('@')[0]} بواسطة 𝐓𝐎𝐉𝐈`,
+      text: `✅ تم قبول @${user.split('@')[0]} بواسطة 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈`,
       mentions: [user]
     }, { quoted: m });
   }

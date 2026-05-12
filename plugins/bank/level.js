@@ -22,7 +22,7 @@ export default async function before(m, { conn }) {
         { min: 6800, max: 7999, name: 'فوشيغرو ميغومي' },
         { min: 8000, max: 9299, name: 'جوغو' },
         { min: 9300, max: 10699, name: 'ماهيتو' },
-        { min: 10700, max: 12199, name: 'فوشيغرو توجي' },
+        { min: 10700, max: 12199, name: 'فوشيغرو أيانو' },
         { min: 12200, max: 13799, name: 'ريكا' },
         { min: 13800, max: 15499, name: 'يوتا أوكوتسو' },
         { min: 15500, max: 17499, name: 'ماكي زينين' },
@@ -75,11 +75,11 @@ export default async function before(m, { conn }) {
                 forwardingScore: 1,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363425314431422@newsletter',
-                    newsletterName: '𝐈𝐍 𝐓𝐎𝐉𝐈',
+                    newsletterName: '𝐈𝐍 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈',
                     serverMessageId: 0
                 },
                 externalAdReply: {
-                    title: "𝐈𝐍 𝐓𝐎𝐉𝐈🏮 | عـالـم الجوجتسو",
+                    title: "𝐈𝐍 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈🏮 | عـالـم الجوجتسو",
                     body: "تـرقـيـة فـي الـجـوجـتـسـو",
                     thumbnailUrl: "https://i.ibb.co/jvBRpKjS/1a8ec40ebc4a3a44d8f81d41a9ab93b2.jpg",
                     sourceUrl: '',

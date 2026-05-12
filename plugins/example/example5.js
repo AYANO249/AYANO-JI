@@ -39,7 +39,7 @@ return await conn.sendButtonNormal(m.chat, {
   ], 
   mentions: [m.sender],
   newsletter: {
-      name: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕',
+      name: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐃𝐄𝐕',
       jid: '120363425314431422@newsletter'
     },
 }, m)

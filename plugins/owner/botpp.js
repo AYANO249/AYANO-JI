@@ -15,7 +15,7 @@ const handler = async (m, { conn }) => {
 
         await conn.updateProfilePicture(botJid, media);
 
-        m.reply('✅ تم تحديث صورة الملف الشخصي للبوت بنجاح يا **𝐓𝐎𝐉𝐈**');
+        m.reply('✅ تم تحديث صورة الملف الشخصي للبوت بنجاح يا **𝐀𝐘𝐀𝐍𝐎 𝐉𝐈**');
     } catch (error) {
         console.error('ERROR:', error);
         m.reply('❌ حدث خطأ أثناء التحديث:\n' + error.message);

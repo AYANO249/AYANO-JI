@@ -37,13 +37,13 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ${data.tafsir}
 
 ╭─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╮
-┃ *⌯︙𝐓𝐎𝐉𝐈 𝐈𝐍 ~ 𝐒𝐘𝐒𝐓𝐄𝐌*
+┃ *⌯︙𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐈𝐍 ~ 𝐒𝐘𝐒𝐓𝐄𝐌*
 ╰─┈─┈─┈─⟞🕋⟝─┈─┈─┈─╯
 > *أَفَلَا يَتَدَبَّرُونَ الْقُرْآنَ*`.trim();
 
         await conn.sendMessage(m.chat, {
             text: msg,
-            contextInfo: context(m.sender, `✨ تفسير سورة ${surahName}`, `آية رقم: ${ayaNumber} | 𝐓𝐎𝐉𝐈 𝐈𝐍`)
+            contextInfo: context(m.sender, `✨ تفسير سورة ${surahName}`, `آية رقم: ${ayaNumber} | 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐈𝐍`)
         }, { quoted: m });
 
     } catch (e) {
@@ -59,14 +59,14 @@ handler.category = "islamic";
 
 export default handler;
 
-// دالة التنسيق الموحدة لهوية 𝐓𝐎𝐉𝐈 𝐈𝐍 كرسالة محولة
+// دالة التنسيق الموحدة لهوية 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐈𝐍 كرسالة محولة
 const context = (jid, title, body) => ({
     mentionedJid: [jid],
     forwardingScore: 999,
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
         newsletterJid: '120363425314431422@newsletter',
-        newsletterName: '𝐓𝐎𝐉𝐈 𝐈𝐍 🏮',
+        newsletterName: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐈𝐍 🏮',
         serverMessageId: 143
     },
     externalAdReply: {

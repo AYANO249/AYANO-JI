@@ -17,7 +17,7 @@ const group = async (ctx, event, eventType) => {
 
         const authorTag = author ? '@' + author.split('@')[0] : '';
 
-        const footer = "\n𝐛𝐲 𝐓𝐎𝐉𝐈";
+        const footer = "\n𝐛𝐲 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈";
 
         const messages = {
             add: `♡゙ مـنـور/ه ${users}${footer}`,
@@ -40,11 +40,11 @@ const group = async (ctx, event, eventType) => {
 
         await ctx.sock.msgUrl(event.chat, txt, {
             img,
-            title: ctx.config?.info?.nameBot || "𝐓𝐎𝐉𝐈 BOT",
+            title: ctx.config?.info?.nameBot || "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 BOT",
             body: "𝐖𝐡𝐚𝐭𝐬𝐀𝐩𝐩 𝐁𝐨𝐭 ⚡",
             mentions: author ? [author, ...participants] : participants,
             newsletter: {
-                name: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕',
+                name: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐃𝐄𝐕',
                 jid: '120363425314431422@newsletter'
             },
             big: ["add", "remove"].includes(eventType)
@@ -89,16 +89,16 @@ END:VCARD`,
         botAdmin: `⚙️ لازم أكون أدمن`,
         noSub: `🚫 الأمر للبوت الأساسي فقط`,
         disabled: `🛠️ الأمر متوقف مؤقتاً`,
-        error: `❌ حصل خطأ، تواصل مع TOJI`
+        error: `❌ حصل خطأ، تواصل مع 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈`
     };
 
     if (conn && messages[checkType]) {
         await conn.msgUrl(msg.chat, messages[checkType], {
             img: "https://i.ibb.co/Ndtbdmmf/75346799414305d513e9d78df1a8a170.jpg",
-            title: "𝐓𝐎𝐉𝐈 | System",
+            title: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 | System",
             body: "Bot Alerts",
             newsletter: {
-                name: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕',
+                name: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐃𝐄𝐕',
                 jid: '120363425314431422@newsletter'
             },
             big: false

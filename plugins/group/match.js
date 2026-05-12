@@ -14,7 +14,7 @@ const { data } = JSON.parse(res);
   ], 
   mentions: [m.sender],
   newsletter: {
-      name: '𝐈𝐍 𝐓𝐎𝐉𝐈 🏮',
+      name: '𝐈𝐍 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 🏮',
       jid: '120363425314431422@newsletter'
     },
 }, global.reply_status)
@@ -32,7 +32,7 @@ return await conn.sendButtonNormal(m.chat, {
   ], 
   mentions: [m.sender],
   newsletter: {
-      name: '𝐈𝐍 𝐓𝐎𝐉𝐈🏮',
+      name: '𝐈𝐍 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈🏮',
       jid: '120363425314431422@newsletter'
     },
 }, global.reply_status)

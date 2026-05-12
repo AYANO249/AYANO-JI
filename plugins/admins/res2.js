@@ -16,7 +16,7 @@ const handler = async (m, { conn, args }) => {
     );
   }
 
-  m.reply(`✅ تم قبول ${list.length} عضو بواسطة 𝐓𝐎𝐉𝐈`);
+  m.reply(`✅ تم قبول ${list.length} عضو بواسطة 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈`);
 };
 
 handler.command = ["اقبل"]; // الكلمة المطلوبة فقط

@@ -52,7 +52,7 @@ const run = async (m, { conn, bot }) => {
 ✓🏮 الـبـوتـات: ${activeBots.length}
 ✓🫒 الـجـروبـات: ${groupCount}
 ⊱⋅ ──────────── ⋅⊰
-> *_TOJI SubBot System_*`);
+> *_𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 SubBot System_*`);
 };
 
 run.command = ["اذاعة_فرعي", "اذاعه_فرعي"];

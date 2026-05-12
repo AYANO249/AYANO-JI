@@ -3,8 +3,8 @@ const handler = async (m, { conn }) => {
 await conn.sendButton(m.chat, {
   // تم وضع الصورة الجديدة التي اخترتها لـ SHADOW
   imageUrl: "",
-  bodyText: "مرحباً بك في نظام **𝐓𝐎𝐉𝐈** المتطور. يرجى اختيار أحد الخيارات المتاحة أدناه:",
-  footerText: "نظام التحكم الذكي - 𝐓𝐎𝐉𝐈",
+  bodyText: "مرحباً بك في نظام **𝐀𝐘𝐀𝐍𝐎 𝐉𝐈** المتطور. يرجى اختيار أحد الخيارات المتاحة أدناه:",
+  footerText: "نظام التحكم الذكي - 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈",
   buttons: [
     // 1. رد سريع
     { name: "quick_reply", params: { display_text: "✅ تأكيد العملية", id: "confirm1" } },
@@ -33,7 +33,7 @@ await conn.sendButton(m.chat, {
   ],
   mentions: [m.sender],
   newsletter: {
-      name: '𝐈𝐍 𝐓𝐎𝐉𝐈',
+      name: '𝐈𝐍 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈',
       jid: '120363425314431422@newsletter'
     },
   interactiveConfig: {

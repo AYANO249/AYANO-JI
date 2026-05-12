@@ -45,12 +45,12 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
                 forwardingScore: 1,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363425314431422@newsletter',
-                    newsletterName: '𝐓𝐎𝐉𝐈 𝐈𝐍 🏮',
+                    newsletterName: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐈𝐍 🏮',
                     serverMessageId: 0
                 },
                 externalAdReply: {
                     title: `📖 سورة ${surahs[surahIndex]}`,
-                    body: `القارئ: ${reciter.name} | 𝐓𝐎𝐉𝐈 𝐈𝐍`,
+                    body: `القارئ: ${reciter.name} | 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐈𝐍`,
                     thumbnailUrl: 'https://i.ibb.co/1y4gGJC/b53f9668d1cf2b6783c65fb3d940f79d.jpg',
                     sourceUrl: 'https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X',
                     mediaType: 1,

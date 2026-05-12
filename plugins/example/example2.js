@@ -1,19 +1,19 @@
 /* 
-by: 𝐓𝐎𝐉𝐈
+by: 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈
 */
 
 const example = async (m, { conn }) => {
 
 conn.msgUrl(m.chat,
-  '*𝐓𝐎𝐉𝐈 𝐁𝐎𝐓 𝐈𝐒 𝐖𝐎𝐑𝐊𝐈𝐍𝐆 𝐍𝐎𝐖*',
+  '*𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐁𝐎𝐓 𝐈𝐒 𝐖𝐎𝐑𝐊𝐈𝐍𝐆 𝐍𝐎𝐖*',
   {
     img: 'https://i.ibb.co/DPbNTZK1/IMG-20260429-WA0039.jpg',
-    title: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕 ',
-    body: '𝐓𝐎𝐉𝐈 𝐒𝐘𝐒𝐓𝐄𝐌 𝐈𝐒 𝐀𝐂𝐓𝐈𝐕𝐄.\nhttps://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X',
+    title: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐃𝐄𝐕 ',
+    body: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐒𝐘𝐒𝐓𝐄𝐌 𝐈𝐒 𝐀𝐂𝐓𝐈𝐕𝐄.\nhttps://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X',
     big: true,
     mentions: ['249906024672@s.whatsapp.net', '2250778788908@s.whatsapp.net'],
     newsletter: {
-      name: '𝐓𝐎𝐉𝐈 𝐃𝐄𝐕 ',
+      name: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐃𝐄𝐕 ',
       jid: '120363425314431422@newsletter'
     }
   },
