@@ -23,7 +23,7 @@ const getImg = (bot) => {
 
     return Array.isArray(images)
         ? images[Math.floor(Math.random() * images.length)]
-        : images || 'https://i.pinimg.com/originals/e2/21/20/e221203f319df949ee65585a657501a2.jpg';
+        : images || 'https://i.ibb.co/ymYdcdNF/f14281b39364343a3ac05c8ed58f0c29.jpg';
 };
 
 const context = (jid, img) => ({
@@ -100,7 +100,7 @@ async function handler(m, { conn, bot, command, args }) {
 
         await conn.sendButtonNormal(m.chat, {
             media: {
-                url: "https://i.pinimg.com/originals/e2/21/20/e221203f319df949ee65585a657501a2.jpg"
+                url: "https://i.ibb.co/mCMhR5sW/8b20ef0dd82f7e0a3bbef077d428c536.jpg"
             },
             mediaType: 'image',
             caption: menuText,
