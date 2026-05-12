@@ -7,7 +7,7 @@
   [![WhatsApp](https://img.shields.io/badge/WhatsApp-Owner-green?style=for-the-badge&logo=whatsapp)](https://wa.me/249906024672)
   [![WhatsApp](https://img.shields.io/badge/WhatsApp-Channel-orange?style=for-the-badge&logo=whatsapp)](https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X)
   
-  **A simple WhatsApp bot with a framework [MeowSab](https://github.com/qusaiabdalgader568-wq)** 
+  **A simple WhatsApp bot with a framework [MeowSab](https://github.com/qusaiabdalgader568-wq/AYANO-JI)** 
   
    [Installation](#-installation) • [Support](#-support) • [Features](#-features) • [Hosting](#-hosting)
 </div>
