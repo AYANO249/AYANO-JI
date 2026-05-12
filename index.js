@@ -44,7 +44,7 @@ config.info = {
     author: '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈' 
   },
   images: [
-    "https://i.ibb.co/tTZhHZc9/5979c43babaaecdd0546dee5bc1c32ff.jpg",
+    "https://i.ibb.co/ksw2TCDQ/bfe2f787dae49dd9efe465d5c1203ecc.jpg",
     "https://i.ibb.co/B2rFmwm7/0e20c78c1ac2759547ff83ed0a8bbe66.jpg",
     "https://i.ibb.co/xKY3B7Gq/6131d7a246c6ead5aaad1a19b30c822a.jpg"
   ]
