@@ -43,12 +43,12 @@ const handler = async (m, { conn, bot, config }) => {
 - *النوى:* \`${cpuCores} نواة @ ${cpuSpeed}GHz\`
 - *الحمل:* \`${cpuUsage}%\`
 
-——> *الـذاكـرة 🧠*
+——> *الـذاكـرة ʚɞ*
 - *الرام المستخدم:* \`${usedRam}MB / ${totalRam}GB\`
 - *الرام الفارغ:* \`${freeRam}GB\`
 - *Heap:* \`${heapUsed}MB / ${heapTotal}MB\`
 
-——> *احـصـائـيـات 📊*
+——> *احـصـائـيـات ʚɞ*
 - *المجموعات:* \`${groupCount}\`
 
 ——> *الـبـوتـات الـفـرعـيـه ʚɞ*
@@ -56,9 +56,9 @@ const handler = async (m, { conn, bot, config }) => {
 - *المتصل:* \`${subConnected}\`
 - *المنفصل:* \`${subCount - subConnected}\`
 
-——> *الـمـالـكـيـن 👑*
+——> *الـمـالـكـيـن ʚɞ*
 - *العدد:* \`${bot.owners?.length || 0}\`
-- *الرئيسي:* \`${bot.owners?.[0]?.name || 'IN'} (${bot.owners?.[0]?.jid?.split('@')[0] || 'لا يوجد'})\`
+- *الرئيسي:* \`${bot.owners?.[0]?.name || '𝐈𝐍'} (${bot.owners?.[0]?.jid?.split('@')[0] || '𝐀𝐘𝐀𝐍𝐎 𝐉𝐈'})\`
 
 > *_𝐈𝐍 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐁𝐎𝐓_*`;
 
