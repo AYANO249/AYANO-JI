@@ -2,15 +2,7 @@ const handler = async (m, { conn }) => {
     let who =
         m.quoted?.sender ||
         (m.mentionedJid && m.mentionedJid[0]) ||
-        null;
-
-    if (!who) {
-        return m.reply(`*─── ❲ تـنـبـيـه ❳ ───*
-
-يـجـب الـرد عـلـى الـعـضـو أو مـنـشـنـتـه أولاً
-
-*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`);
-    }
+        m.sender; // سيعمل على الشخص المذكور أو من رد عليه، وإذا لم يوجد شيء سيعمل على المرسل
 
     const number = who.split("@")[0];
 
@@ -31,14 +23,14 @@ const handler = async (m, { conn }) => {
     try {
         name = await conn.getName(who);
     } catch {
-        name = number;
+        name = "مستخدم واتساب";
     }
 
     const caption = `*─── 𓆩 📂 بـيـانـات الـهـوِيَّـة 𓆪 ───*
 
-👤 *الاسـم :* ${name}
+👤 *الاسـم :* @${number}
 📝 *الـحـالـة :* ${bio}
-📞 *الـرّقـم :* +${number}
+📞 *الـرّقـم :* @${number}
 🔗 *الـرّابـط :* wa.me/${number}
 
 *─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`.trim();
@@ -46,7 +38,7 @@ const handler = async (m, { conn }) => {
     await conn.sendMessage(m.chat, {
         image: { url: pp },
         caption,
-        mentions: [who],
+        mentions: [who], // هذا السطر يقوم بتفعيل المنشن في الرسالة
         contextInfo: {
             externalAdReply: {
                 title: "𓆩 📂 سِـجِـل الـهـوِيَّـة 𓆪",
