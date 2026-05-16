@@ -40,6 +40,6 @@ return await conn.sendButtonNormal(m.chat, {
 };
 handler.usage =  ["تطقيم"];
 handler.category = "group";
-handler.command = ["ماتشينج", "تطقيم"];
+handler.command = [ "تطقيم"];
 
 export default handler;
