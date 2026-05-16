@@ -2,8 +2,9 @@ const handler = async (m, { conn }) => {
     let who =
         m.quoted?.sender ||
         (m.mentionedJid && m.mentionedJid[0]) ||
-        m.sender; // سيعمل على الشخص المذكور أو من رد عليه، وإذا لم يوجد شيء سيعمل على المرسل
+        m.sender;
 
+    // استخراج الرقم الصحيح النظيف تماماً بدون أي إضافات للمنشن والرابط
     const number = who.split("@")[0];
 
     let pp;
@@ -19,13 +20,6 @@ const handler = async (m, { conn }) => {
         bio = status?.status || bio;
     } catch {}
 
-    let name;
-    try {
-        name = await conn.getName(who);
-    } catch {
-        name = "مستخدم واتساب";
-    }
-
     const caption = `*─── 𓆩 📂 بـيـانـات الـهـوِيَّـة 𓆪 ───*
 
 👤 *الاسـم :* @${number}
@@ -38,7 +32,7 @@ const handler = async (m, { conn }) => {
     await conn.sendMessage(m.chat, {
         image: { url: pp },
         caption,
-        mentions: [who], // هذا السطر يقوم بتفعيل المنشن في الرسالة
+        mentions: [who], // لتفعيل المنشن الأزرق في النص
         contextInfo: {
             externalAdReply: {
                 title: "𓆩 📂 سِـجِـل الـهـوِيَّـة 𓆪",
