@@ -1,5 +1,9 @@
 const handler = async (m, { conn, text }) => {
-  if (!text) return m.reply('✨ يرجى إرسال رابط القناة أو رمز الدعوة')
+  if (!text) return m.reply(`*─── ❲ تـنـبـيـه ❳ ───*
+
+يـجـب تـزويدنـا بـيـوزر الـقـنـاة مـع الأمـر
+
+*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ☣︎ ───*`)
 
   try {
     const invite = text.includes('https')
@@ -62,6 +66,8 @@ const handler = async (m, { conn, text }) => {
   }
 }
 
-handler.command = ['قناة']
-export default handler
+handler.usage = ["قناة"];
+handler.category = "group";
+handler.command = ['قناة', 'فحص-قناة'];
 
+export default handler;
