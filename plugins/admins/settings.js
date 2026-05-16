@@ -1,206 +1,196 @@
 const handler = async (m, { conn, args }) => {
     const chatId = m.chat;
-    const subCmd = args.join(" ").trim().toLowerCase();
+    const subCmd = args.join(" ").trim();
 
-    // إنشاء قواعد البيانات تلقائياً
-    if (!global.db) global.db = {};
-    if (!global.db.groups) global.db.groups = {};
-    if (!global.db.groups[chatId]) {
-        global.db.groups[chatId] = {};
-    }
+    // ===== قاعدة البيانات =====
+    global.db = global.db || {};
+    global.db.groups = global.db.groups || {};
 
+    global.db.groups[chatId] = global.db.groups[chatId] || {
+        noWelcome: false,
+        adminOnly: false,
+        antiLink: false
+    };
+
+    const dbGroup = global.db.groups[chatId];
+
+    // ===== بيانات المجموعة =====
+    const groupMetadata = m.isGroup
+        ? await conn.groupMetadata(chatId).catch(() => null)
+        : null;
+
+    const participants = groupMetadata?.participants || [];
+
+    const admins = participants
+        .filter(p => p.admin !== null)
+        .map(p => p.id);
+
+    // ===== الصلاحيات =====
+    const isOwner =
+        m.isOwner ||
+        global.opts?.owner?.includes(m.sender) ||
+        m.sender.split("@")[0] === "249906024672";
+
+    const isAdmin = m.isGroup && admins.includes(m.sender);
+
+    // ===== دوال الحماية الاحترافية المزخرفة =====
+    const requireOwner = () => {
+        if (!isOwner) {
+            m.reply(`*─── ❲ رتـبـة الـمـطـور ❳ ───*
+
+الـوصـول مـرفـوض، هـذه المـيـزة تـتـطـلـب صـلاحـيـات الـمـطـور
+تـواصـل مـع مـمالـك الـبـوت للـقـيـام بـذلـك
+
+*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`);
+            return false;
+        }
+        return true;
+    };
+
+    const requireGroup = () => {
+        if (!m.isGroup) {
+            m.reply(`*─── ❲ الـمـجـمـوعـات فـقـط ❳ ───*
+
+الـوصـول مـرفـوض، هـذه المـيـزة مـخـصـصـة لـلـمـجـمـوعـات فـقـط
+يـرجـى اسـتـخـدام الأمـر داخـل الـمـجـمـوعـة
+
+*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍Ｏ 𝐉𝐈 ʚɞ ───*`);
+            return false;
+        }
+        return true;
+    };
+
+    const requireAdmin = () => {
+        if (!isOwner && !isAdmin) {
+            m.reply(`*─── ❲ رتـبـة الـمـشـرف ❳ ───*
+
+الـوصـول مـرفـوض، هـذه المـيـزة تـتـطـلـب صـلاحـيـات الإدارة
+تـواصـل مـع مـشـرف المـجـمـوعـة للـقـيـام بـذلـك
+
+*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`);
+            return false;
+        }
+        return true;
+    };
+
+    // ===== القائمة =====
     const menu = `
 ╭━━━━━━━ʚɞ━━━━━━━╮
-┃  نظام التحكم والتفعيل
+┃  نظام التحكم
 ┃
-┃ ʚɞ الإعدادات الإدارية ʚɞ
+┃ .تفعيل إيقاف_الترحيب
+┃ .تفعيل تشغيل_الترحيب
+┃ .تفعيل وضع_المشرفين
+┃ .تفعيل وضع_الجميع
 ┃
-┃ ⌯︙ .تفعيل إيقاف_الترحيب
-┃ ⌯︙ .تفعيل تشغيل_الترحيب
-┃ ⌯︙ .تفعيل وضع_المشرفين
-┃ ⌯︙ .تفعيل وضع_الجميع
+┃ .تفعيل مضاد_الروابط
+┃ .تفعيل إيقاف_المضاد
 ┃
-┃ ʚɞ إعدادات الحماية ʚɞ
-┃
-┃ ⌯︙ .تفعيل مضاد_الروابط
-┃ ⌯︙ .تفعيل إيقاف_المضاد
-┃
-┃ ʚɞ إعدادات المطور ʚɞ
-┃
-┃ ⌯︙ .تفعيل المطور_فقط
-┃ ⌯︙ .تفعيل المطور_عام
-┃ ⌯︙ .تفعيل الوضع_الخاص
-┃ ⌯︙ .تفعيل العام_للخاص
-┃ ⌯︙ .تفعيل إيقاف_الفرعي
-┃ ⌯︙ .تفعيل تشغيل_الفرعي
+┃ .تفعيل المطور_فقط
+┃ .تفعيل المطور_عام
 ┃
 ╰━━━━━━━ʚɞ━━━━━━━╯
-
-      𝐀𝐘𝐀𝐍𝐎 𝐉𝐈
+𝐀𝐘𝐀𝐍𝐎 𝐉𝐈
 `;
 
-    // القائمة الرئيسية
     if (!subCmd) {
-        return await conn.sendMessage(
-            m.chat,
-            {
-                text: menu,
-                footer: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐌𝐔𝐋𝐓𝐈-𝐃𝐄𝐕",
-                buttons: [
-                    {
-                        buttonId: ".تفعيل إيقاف_الفرعي",
-                        buttonText: { displayText: "ʚɞ إيقاف الفرعي" },
-                        type: 1
-                    },
-                    {
-                        buttonId: ".تفعيل تشغيل_الفرعي",
-                        buttonText: { displayText: "ʚɞ تشغيل الفرعي" },
-                        type: 1
-                    },
-                    {
-                        buttonId: ".تفعيل وضع_الجميع",
-                        buttonText: { displayText: "ʚɞ وضع الجميع" },
-                        type: 1
-                    }
-                ],
-                headerType: 4
-            },
-            { quoted: m }
-        );
+        return conn.sendMessage(m.chat, {
+            text: menu,
+            footer: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈",
+            headerType: 4
+        }, { quoted: m });
     }
 
-    let result = "";
+    let title = "";
+    let body = "";
 
     switch (subCmd) {
 
-        // الفرعي
         case "إيقاف_الفرعي":
-            if (!m.isOwner)
-                return m.reply("*ʚɞ هذا الأمر للمطور فقط*");
-
+            if (!requireOwner()) return;
             global.db.noSub = true;
-            result = "*ʚɞ تم إيقاف تنصيب البوتات الفرعية*";
+            title = "الـبـوتـات الـفـرعـيـة";
+            body = "تـم إيـقـاف تـنـصـيـب الـبـوتـات الـفـرعـيـة بـنـجـاح";
             break;
 
         case "تشغيل_الفرعي":
-            if (!m.isOwner)
-                return m.reply("*ʚɞ هذا الأمر للمطور فقط*");
-
+            if (!requireOwner()) return;
             global.db.noSub = false;
-            result = "*ʚɞ تم تشغيل تنصيب البوتات الفرعية*";
+            title = "الـبـوتـات الـفـرعـيـة";
+            body = "تـم تـشـغـيـل تـنـصـيـب الـبـوتـات الـفـرعـيـة بـنـجـاح";
             break;
 
-        // الترحيب
         case "إيقاف_الترحيب":
-            if (!m.isGroup)
-                return m.reply("*ʚɞ هذا الأمر للمجموعات فقط*");
-
-            if (!m.isOwner && !m.isAdmin)
-                return m.reply("*ʚɞ هذا الأمر للمشرفين فقط*");
-
-            global.db.groups[chatId].noWelcome = true;
-            result = "*ʚɞ تم إيقاف الترحيب*";
+            if (!requireGroup() || !requireAdmin()) return;
+            dbGroup.noWelcome = true;
+            title = "نـظـام الـتـرحـيـب";
+            body = "تـم إيـقـاف تـفـعـيـل الـتـرحـيـب فـي هـذه الـمـجـمـوعـة";
             break;
 
         case "تشغيل_الترحيب":
-            if (!m.isGroup)
-                return m.reply("*ʚɞ هذا الأمر للمجموعات فقط*");
-
-            if (!m.isOwner && !m.isAdmin)
-                return m.reply("*ʚɞ هذا الأمر للمشرفين فقط*");
-
-            global.db.groups[chatId].noWelcome = false;
-            result = "*ʚɞ تم تشغيل الترحيب*";
+            if (!requireGroup() || !requireAdmin()) return;
+            dbGroup.noWelcome = false;
+            title = "نـظـام الـتـرحـيـب";
+            body = "تـم تـشـغـيـل تـفـعـيـل الـتـرحـيـب فـي هـذه الـمـجـمـوعـة";
             break;
 
-        // وضع المشرفين
         case "وضع_المشرفين":
-            if (!m.isGroup)
-                return m.reply("*ʚɞ هذا الأمر للمجموعات فقط*");
-
-            if (!m.isOwner && !m.isAdmin)
-                return m.reply("*ʚɞ هذا الأمر للمشرفين فقط*");
-
-            global.db.groups[chatId].adminOnly = true;
-            result = "*ʚɞ البوت الآن للمشرفين فقط*";
+            if (!requireGroup() || !requireAdmin()) return;
+            dbGroup.adminOnly = true;
+            title = "وضع الإدارة";
+            body = "تـم قـفـل الـبـوت لـيـصـبـح مـتـاحـاً لـلـمـشـرفـيـن فـقـط";
             break;
 
         case "وضع_الجميع":
-            if (!m.isGroup)
-                return m.reply("*ʚɞ هذا الأمر للمجموعات فقط*");
-
-            if (!m.isOwner && !m.isAdmin)
-                return m.reply("*ʚɞ هذا الأمر للمشرفين فقط*");
-
-            global.db.groups[chatId].adminOnly = false;
-            result = "*ʚɞ البوت الآن متاح للجميع*";
+            if (!requireGroup() || !requireAdmin()) return;
+            dbGroup.adminOnly = false;
+            title = "وضع الإدارة";
+            body = "تـم فـتـح الـبـوت لـيـصـبـح مـتـاحـاً لـجـمـيـع الأعـضـاء";
             break;
 
-        // المطور
-        case "المطور_فقط":
-        case "مطور_فقط":
-            if (!m.isOwner)
-                return m.reply("*ʚɞ هذا الأمر للمطور فقط*");
-
-            global.db.ownerOnly = true;
-            result = "*ʚɞ تم تفعيل وضع المطور فقط*";
-            break;
-
-        case "المطور_عام":
-            if (!m.isOwner)
-                return m.reply("*ʚɞ هذا الأمر للمطور فقط*");
-
-            global.db.ownerOnly = false;
-            result = "*ʚɞ تم فتح البوت للجميع*";
-            break;
-
-        // مضاد الروابط
         case "مضاد_الروابط":
-            if (!m.isGroup)
-                return m.reply("*ʚɞ هذا الأمر للمجموعات فقط*");
-
-            if (!m.isOwner && !m.isAdmin)
-                return m.reply("*ʚɞ هذا الأمر للمشرفين فقط*");
-
-            global.db.groups[chatId].antiLink = true;
-            result = "*ʚɞ تم تشغيل مضاد الروابط*";
+            if (!requireGroup() || !requireAdmin()) return;
+            dbGroup.antiLink = true;
+            title = "مـضـاد الـروابـط";
+            body = "تـم تـشـغـيـل حـمـايـة الـمـجـمـوعـة ومـنـع الـروابـط";
             break;
 
         case "إيقاف_المضاد":
-            if (!m.isGroup)
-                return m.reply("*ʚɞ هذا الأمر للمجموعات فقط*");
-
-            if (!m.isOwner && !m.isAdmin)
-                return m.reply("*ʚɞ هذا الأمر للمشرفين فقط*");
-
-            global.db.groups[chatId].antiLink = false;
-            result = "*ʚɞ تم إيقاف مضاد الروابط*";
+            if (!requireGroup() || !requireAdmin()) return;
+            dbGroup.antiLink = false;
+            title = "مـضـاد الـروابـط";
+            body = "تـم إيـقـاف حـمـايـة الـمـجـمـوعـة والـسـمـاح بـالـروابـط";
             break;
 
-        // الخاص
-        case "الوضع_الخاص":
-            if (!m.isOwner)
-                return m.reply("*ʚɞ هذا الأمر للمطور فقط*");
-
-            global.db.dev = true;
-            result = "*ʚɞ الخاص الآن للمطورين فقط*";
+        case "المطور_فقط":
+            if (!requireOwner()) return;
+            global.db.ownerOnly = true;
+            title = "الـوضـع الـحـصـري";
+            body = "تـم تـفـعـيـل وضـع الـمـطـور فـقـط لـجـمـيـع الـشـاتـات";
             break;
 
-        case "العام_للخاص":
-            if (!m.isOwner)
-                return m.reply("*ʚɞ هذا الأمر للمطور فقط*");
-
-            global.db.dev = false;
-            result = "*ʚɞ تم فتح الخاص للجميع*";
+        case "المطور_عام":
+            if (!requireOwner()) return;
+            global.db.ownerOnly = false;
+            title = "الـوضـع الـحـصـري";
+            body = "تـم إلـغـاء وضـع الـمـطـور وفـتـح الـبـوت لـلـجـمـيـع";
             break;
 
         default:
-            return m.reply(
-                "*ʚɞ الخيار غير موجود، يرجى اختيار أمر صحيح من القائمة*"
-            );
+            return m.reply(`*─── ❲ خـطـأ فـي الأمـر ❳ ───*
+
+الأمـر الـذي أدخـلـتـه غـيـر مـوجـود فـي الـقـائـمـة
+يـرجـى الـتـحـقـق مـمـا كـتـبـتـه لـلـتـفـعـيـل
+
+*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍Ｏ 𝐉𝐈 ʚɞ ───*`);
     }
 
-    await m.reply(result);
+    // إرسال رد التأكيد النهائي الموحد والمزخرف
+    return m.reply(`*─── ❲ ${title} ❳ ───*
+
+${body}
+
+*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`);
 };
 
 handler.help = ["تفعيل"];
@@ -208,3 +198,4 @@ handler.tags = ["admin"];
 handler.command = /^تفعيل$/i;
 
 export default handler;
+
