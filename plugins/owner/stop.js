@@ -9,10 +9,10 @@ const test = async (m, { conn, bot }) => {
 
   m.react("🟢");
   
-  conn.msgUrl(m.chat, "♡゙ Stop the bot...", { 
-    title: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝘪𝘴 𝘢 𝘞𝘩𝘢𝘵𝘴𝘈𝘱𝘱 𝘣𝘰𝘵",
-    body: "𝑇𝒉𝑒 𝑏𝑜𝑡 𝑖𝑠 𝑠𝑖𝑚𝑝𝑙𝑒 𝑡𝑜 𝑚𝑜𝑑𝑖𝑓𝑦",
-    img: "https://g.top4top.io/p_3700yob0b1.jpg",
+  conn.msgUrl(m.chat, "ʚɞ Stop the bot...", { 
+    title: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐈𝐒 𝐀 𝐖𝐇𝐀𝐓𝐒𝐀𝐏𝐏 𝐁𝐎𝐓",
+    body: "𝐓𝐇𝐄 𝐁𝐎𝐓 𝐈𝐒 𝐒𝐈𝐌𝐏𝐋𝐄 𝐓𝐎 𝐌𝐎𝐃𝐈𝐅𝐘",
+    img: "https://i.ibb.co/0p8MT7kS/bfe2f787dae49dd9efe465d5c1203ecc.jpg", // تم تغيير رابط الصورة هنا
     big: false 
   });
   
@@ -23,5 +23,5 @@ const test = async (m, { conn, bot }) => {
 
 test.category = "owner";
 test.command = ["ايقاف", "stop"];
-test.owner = true; // ميزة التحقق الافتراضية للمطورين
+test.owner = true; 
 export default test;
