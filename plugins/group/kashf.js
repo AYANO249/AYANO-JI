@@ -5,7 +5,11 @@ const handler = async (m, { conn }) => {
         null;
 
     if (!who) {
-        return m.reply("⚠️ رد على الشخص أو منشنه أولاً!");
+        return m.reply(`*─── ❲ تـنـبـيـه ❳ ───*
+
+يـجـب الـرد عـلـى الـعـضـو أو مـنـشـنـتـه أولاً
+
+*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`);
     }
 
     const number = who.split("@")[0];
@@ -30,17 +34,14 @@ const handler = async (m, { conn }) => {
         name = number;
     }
 
-    const caption = `
-╭─⟞ 🕵️‍♂️ كَشْفُ البروفايل ⟝─╮
+    const caption = `*─── 𓆩 📂 بـيـانـات الـهـوِيَّـة 𓆪 ───*
 
-👤 الاسم: ${name}
-📝 الحالة: ${bio}
-📞 الرقم: +${number}
-🔗 الرابط: wa.me/${number}
+👤 *الاسـم :* ${name}
+📝 *الـحـالـة :* ${bio}
+📞 *الـرّقـم :* +${number}
+🔗 *الـرّابـط :* wa.me/${number}
 
-╭─⟞ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐈𝐍 𝐒𝐘𝐒𝐓𝐄𝐌 ⟝─╮
-✨ تم استخراج البيانات بنجاح
-`.trim();
+*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`.trim();
 
     await conn.sendMessage(m.chat, {
         image: { url: pp },
@@ -48,8 +49,8 @@ const handler = async (m, { conn }) => {
         mentions: [who],
         contextInfo: {
             externalAdReply: {
-                title: "🕵️ كشف البروفايل",
-                body: "عرض بيانات المستخدم",
+                title: "𓆩 📂 سِـجِـل الـهـوِيَّـة 𓆪",
+                body: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ~ 𝐒𝐘𝐒𝐓𝐄𝐌",
                 thumbnailUrl: pp,
                 sourceUrl: "https://whatsapp.com",
                 mediaType: 1,
@@ -59,8 +60,8 @@ const handler = async (m, { conn }) => {
     }, { quoted: m });
 };
 
-handler.help = ["كشف"];
-handler.tags = ["group"];
-handler.command = /^(كشف|بروفايل|kashf)$/i;
+handler.usage = ["هوية"];
+handler.category = "group";
+handler.command = /^(هوية|بروفايل|id)$/i;
 
 export default handler;
