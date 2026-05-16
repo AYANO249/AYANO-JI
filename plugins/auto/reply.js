@@ -1,35 +1,28 @@
 export default async function before(m, { conn, participants }) {
 
   const owner = "249906024672@s.whatsapp.net";
-
   const botName = "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈";
 
-  const triggers = {
-    "السلام عليكم": ["وعليكم السلام ورحمة الله وبركاته 🤍", "أهلاً وسهلاً بك 🌹", "نورت المكان ✨"],
-    "هلا": ["ياهلا وغلا 🤍", "منور يا غالي ✨"],
-    "مرحبا": ["مرحباً بك 🤍", "ياهلا فيك ✨"],
-    "صباح الخير": ["صباح النور ☀️", "صباحك ورد 🌹"],
-    "مساء الخير": ["مساء النور 🌙", "مساء الورد 🌹"],
-    "بوت": ["لبيك 💮", `معك ${botName} ✨`, "تفضل 🤍", "أنا حاضر ✨"],
-    "أيانو": ["عيون أيانو 🤍", `نعم معك ${botName} 💮`],
-    "مين انت": [`أنا ${botName} 💮`, "بوت ذكي لخدمتكم ✨"],
-    "تمام": ["دوم 🤍", "الحمدلله ✨"],
-    "اوكي": ["تمام ✅", "أوكي 🤍"],
-    "باي": ["في أمان الله 🤍", "نشوفك على خير ✨"]
-  };
-
-  // ===== تنظيف ذكي =====
+  // ===== تنظيف ذكي وقوي (مع الحفاظ على المسافات لمنع التداخل) =====
   const normalize = (t) =>
     (t || "")
       .toLowerCase()
-      .replace(/[\s._,*/+=\-]/g, "")
-      .replace(/[\u064B-\u0652]/g, "");
+      .replace(/[^\p{L}\p{N}\s]/gu, "") // تم إضافة \s للاحتفاظ بالمسافات الأصلية بين الكلمات
+      .replace(/[\u064B-\u0652]/g, ""); // إزالة التشكيل والحركات
 
-  const text = (m.text || "").trim();
+  // ===== التقاط النص بدقة =====
+  const text = (
+    m.text ||
+    m.message?.conversation ||
+    m.message?.extendedTextMessage?.text ||
+    ""
+  ).trim();
+
   const cleanText = normalize(text);
 
-  // ===== رياكشن =====
-  if (cleanText === "تست") {
+  // ===== رياكشن تست =====
+  // نستخدم .trim() هنا للتأكد من أن الكلمة هي "تست" فقط بدون إضافات ثانية
+  if (cleanText.trim() === "تست") {
     return await conn.sendMessage(m.chat, {
       react: {
         text: "✅",
@@ -38,53 +31,67 @@ export default async function before(m, { conn, participants }) {
     });
   }
 
-  // ===== الردود =====
-  const cleanTriggers = {};
-
-  for (let key in triggers) {
-    cleanTriggers[normalize(key)] = triggers[key];
-  }
-
-  if (cleanTriggers[cleanText]) {
-    const replies = cleanTriggers[cleanText];
-    const reply = replies[Math.floor(Math.random() * replies.length)];
-    return m.reply(reply);
-  }
-
   // ===== كلمات ممنوعة =====
-  const forbiddenWords = ["كسم", "انيك", "لوطي", "نجاو"];
+  const forbiddenWords = [
+    "كسم",
+    "انيك",
+    "لوطي",
+    "نجاو"
+  ];
 
-  const isForbidden = forbiddenWords.some(w => cleanText.includes(w));
+  // الفحص الآن أصبح آمناً؛ يبحث عن الكلمة الممنوعة ككلمة مستقلة أو مدمجة برموز
+  const isForbidden = forbiddenWords.some(word =>
+    cleanText.includes(normalize(word))
+  );
 
+  // ===== نظام الطرد =====
   if (isForbidden && m.isGroup) {
 
     const sender = m.sender;
+
+    // ===== حماية المطور والبوت =====
     const isOwner = sender === owner || m.fromMe;
+    if (isOwner) return false;
 
+    // ===== حماية المشرفين =====
     const senderData = participants.find(p => p.id === sender);
-    const isAdmin = senderData?.admin;
+    const isAdmin = senderData?.admin === "admin" || senderData?.admin === "superadmin";
+    if (isAdmin) return false;
 
-    if (isOwner || isAdmin) return false;
+    // ===== جلب معرف البوت الحقيقي =====
+    const botJid = conn.user.id ? (conn.user.id.split(":")[0] + "@s.whatsapp.net") : conn.user.jid;
 
-    const botData = participants.find(p => p.id === conn.user.jid);
-    const botAdmin = botData?.admin;
-
+    // ===== التأكد أن البوت مشرف =====
+    const botData = participants.find(p => p.id === botJid);
+    const botAdmin = botData?.admin === "admin" || botData?.admin === "superadmin";
     if (!botAdmin) return false;
 
     try {
-      await conn.groupParticipantsUpdate(m.chat, [sender], "remove");
+
+      // ===== حذف الرسالة =====
+      await conn.sendMessage(m.chat, {
+        delete: m.key
+      });
+
+      // ===== طرد العضو =====
+      await conn.groupParticipantsUpdate(
+        m.chat,
+        [sender],
+        "remove"
+      );
 
       const userNumber = sender.split("@")[0];
-      const groupMetadata = await conn.groupMetadata(m.chat);
+      let groupName = "المجموعة";
 
-      const report = `
-🚨 طرد صامت - ${botName}
+      try {
+        const groupMetadata = await conn.groupMetadata(m.chat);
+        groupName = groupMetadata.subject;
+      } catch (err) {
+        console.error("فشل جلب اسم الروم:", err);
+      }
 
-👤 المستخدم: @${userNumber}
-📍 المجموعة: ${groupMetadata.subject}
-💬 الرسالة: ${text}
-🧹 الحالة: تم الطرد بنجاح
-`;
+      // ===== تقرير للمطور =====
+      const report = `*─── ❲ تـنـبـيـه ❳ ───*\n\n👤 الـمـسـتـخـدم: @${userNumber}\n\n📍 الـمـجـمـوعـة: ${groupName}\n\n💬 الـرسـالـة:\n${text}\n\n🧹 الـحـالـة:\nتـم حـذف الـرسـالـة وطـرد الـعـضـو بـنـجـاح\n\n*─── 𝐈𝐍 ⁝|⁝ ${botName} ʚɞ ───*`;
 
       await conn.sendMessage(owner, {
         text: report,
@@ -97,4 +104,4 @@ export default async function before(m, { conn, participants }) {
   }
 
   return false;
-    }
+}
