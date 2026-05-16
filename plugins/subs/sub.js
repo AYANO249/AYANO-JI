@@ -1,9 +1,25 @@
 const run = async (m, { args, conn, bot }) => {
-  if (global.db.noSub) return m.reply("⚠️ المطور أغلق نظام التنصيب حالياً")
+  // رسالة إغلاق المطور لنظام التنصيب
+  if (global.db.noSub) {
+    return m.reply(`*─── ❲ صلاحـيـة الـتـنـصـيـب ❳ ───*\n\nالـوصـول مـرفـوض، هـذه المـيـزة تـتـطـلـب صـلاحـيـات الإدارة\nتـواصـل مـع مـشـرف المـجـمـوعـة للـقـيـام بـذلـك\n\n*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`);
+  }
+  
+  // التحقق من اسم المجموعة
+  const groupMetadata = m.isGroup ? await conn.groupMetadata(m.chat).catch(() => null) : null;
+  const groupName = groupMetadata ? groupMetadata.subject : "";
+  const allowedGroup = "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈||تنصيب";
+
+  if (!m.isGroup || groupName !== allowedGroup) {
+    return m.reply(`*─── ❲ الـتـنـصـيب ❳ ───*\n\nهذا الأمر في القروب الاساسي فقط، لا يمكنك استخدام ميزة التنصيب هنا.\n\n*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`);
+  }
+
   try {
     const num = m.sender.split("@")[0].replace(/[+\s-]/g, '');
 
-    if (!/^\d+$/.test(num)) return m.reply("⚠️ رقم الهاتف غير صالح");
+    // تعديل وتنسيق رسالة رقم الهاتف غير صالح
+    if (!/^\d+$/.test(num)) {
+      return m.reply(`*─── ❲ خـطـأ فـي الـرقـم ❳ ───*\n\n⚠️ عذراً، رقم الهاتف الخاص بك غير صالح أو غير مدعوم.\n\n> *تأكد من إعدادات حسابك وحاول مجدداً.*\n\n*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`);
+    }
 
     const sub = global.subBots;
     if (!sub) return m.reply("❌ نظام البوتات الفرعية غير متاح");
@@ -76,13 +92,12 @@ export default run;
 const Func = {
   pair: async (conn, code, num, m, reply_status) => {
     await conn.sendButton(m.chat, {
-      // تم وضع رابط الصورة الجديد هنا
-      imageUrl: "https://i.ibb.co/RkVbNgdz/IMG-20260429-WA0040.jpg",
+      imageUrl: "https://i.ibb.co/zh7Cgwxh/862bdd19ab9abd7d7720fc5e761f0c7b.jpg",
       bodyText: `🔐⤿ نـظـام الـبـوتـات الـفـرعـيـه 𑁍\n⊱⋅ ──────────── ⋅⊰\n📱 — الرقم: ${num}\n🔑 — الكود: ${code}\n⊱⋅ ──────────── ⋅⊰\n> *_افتح واتساب > الأجهزة المرتبطة > ربط جهاز برقم الهاتف > أدخل الكود_*`,
-      footerText: "© 𝐒𝐲𝐬𝐭𝐞𝐦 𝐒𝐮𝐛𝐁𝐨𝐭𝐬 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈",
+      footerText: "© 𝐒𝐲𝐬𝐭𝐞ม 𝐒𝐮𝐛𝐁𝐨𝐭𝐬 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈",
       buttons: [
         { name: "cta_copy", params: { display_text: "⟨⚜️| 𝐂𝐨𝐩𝐲 𝐂𝐨𝐝𝐞 |⚜️⟩", copy_code: code } },
-        { name: "cta_url", params: { display_text: "⟨📢| 𝐂𝐡𝐚𝐧 n e l 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 |⟩", url: "https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X" } },
+        { name: "cta_url", params: { display_text: "⟨📢| 𝐂𝐡𝐚н n e l 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 |⟩", url: "https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X" } },
       ],
       mentions: [m.sender],
       newsletter: {
@@ -93,8 +108,7 @@ const Func = {
         buttons_limits: 10,
         list_title: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐒𝐘𝐒𝐓𝐄𝐌",
         button_title: "Click Here",
-        // الرابط المحدث لضمان معاينة صحيحة باسم قناتك
-        canonical_url: `https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X`
+        canonical_url: `𝐀𝐘𝐀𝐍𝐎 𝐉𝐈`
       }
     }, global.reply_status);
   },
@@ -102,10 +116,10 @@ const Func = {
   ready: async (conn, num, m, img) => {
     await m.react("✅");
     await conn.sendMessage(m.chat, {
-      text: `✅ — *تـم الاتـصـال بـنـجـاح*\n\n📱 الرقم: ${num}\n> *بـوت 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 جـاهـز للاسـتـخـدام الآن*`,
+      text: `*─── ❲ حـالـة الـتـنـصـيـب ❳ ───*\n\n✅ تـم الاتـصـال بـنـجـاح!\n📱 الـرقم: +${num}\n\n> *بـوت الـتـنـصـيـب الـفـرعـي جـاهـز للاسـتـخـدام الآن*\n\n*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`,
       contextInfo: {
         externalAdReply: {
-          title: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 | 𝐁𝐨𝐭 𝐂𝐨 n n e c t e d",
+          title: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐁𝐨𝐭 ",
           body: "نظام البوتات الفرعية الأسرع والأكثر استقراراً",
           thumbnailUrl: img,
           sourceUrl: 'https://whatsapp.com/channel/0029VbD3UpkG3R3aq6V1DW2X',
@@ -117,14 +131,14 @@ const Func = {
   },
 
   error: async (conn, num, err, m) => {
-    await m.reply(`❌ *فشل الاقتران!*\n\n📱 الرقم: ${num}\n⚠️ الخطأ: ${err?.message || 'غير معروف'}`);
+    await m.reply(`*─── ❲ فـشـل الاقـتـران ❳ ───*\n\n❌ نأسف، لم يكتمل ربط البوت الفرعي بنجاح.\n📱 الـرقم: +${num}\n⚠️ الـخطأ: ${err?.message || 'غير معروف'}\n\n> *يرجى التحقق من استقرار شبكتك وإعادة المحاولة لاحقاً.*\n\n*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`);
   },
 
   timeout: async (conn, m, pairDone) => {
-    await m.reply(pairDone
-      ? `⏰ تم إرسال الكود لكن لم يتم تأكيد الاتصال.\nتأكد من إدخال الكود في واتساب.`
-      : `⏰ لم يتم استلام كود الاقتران خلال 120 ثانية.\nالرجاء المحاولة مرة أخرى.`
-    );
+    const msgText = pairDone
+      ? `⏰ تم إرسال الكود مسبقاً لكن لم يتم تأكيد الاتصال على الواتساب الخاص بك.\nتأكد من إدخال الكود في الأجهزة المرتبطة.`
+      : `⏰ انتهت المهلة! لم يتم استلام كود الاقتران خلال 120 ثانية.\nالرجاء إعادة كتابة الأمر للمحاولة مرة أخرى.`;
+
+    await m.reply(`*─── ❲ انـتـهـاء المـهـلـة ❳ ───*\n\n${msgText}\n\n*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`);
   }
 };
-
