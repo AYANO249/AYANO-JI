@@ -1,10 +1,18 @@
 const test = async (m, { conn, bot }) => {
-  m.react("🟢")
+  // رقم المؤسس الخاص بك
+  const ownerNumber = "249906024672@s.whatsapp.net";
+
+  // التحقق مما إذا كان مرسل الأمر هو المؤسس حصراً
+  if (m.sender !== ownerNumber) {
+    return m.reply(`*─── ❲ صـلاحـيـة الـمـطور ❳ ───*\n\nالـوصـول مـرفـوض، هـذا الأمـر مـخـصـص لـمـؤسـس الـبـوت فـقـط.\n\n*─── 𝐈𝐍 ⁝|⁝ 𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 ʚɞ ───*`);
+  }
+
+  m.react("🟢");
   
-  conn.msgUrl(m.chat, "♡゙ Bot is restarting...", { 
-    title: "SHADOW 𝘪𝘴 𝘢 𝘞𝘩𝘢𝘵𝘴𝘈𝘱𝘱 𝘣𝘰𝘵 𝘧𝘳𝘰𝘮 𝘵𝘩𝘦 QUSAY",
-    body: "𝑇𝒉𝑒 𝑏𝑜𝑡 𝑖𝑠 𝑠𝑖𝑚𝑝𝑙𝑒 𝑡𝑜 𝑚𝑜𝑑𝑖𝑓𝑦",
-    img: "https://g.top4top.io/p_3700yob0b1.jpg",
+  conn.msgUrl(m.chat, "ʚɞ Bot is restarting...", { 
+    title: "𝐀𝐘𝐀𝐍𝐎 𝐉𝐈 𝐈𝐒 𝐀 𝐖𝐇𝐀𝐓𝐒𝐀𝐏𝐏 𝐁𝐎𝐓",
+    body: "𝐓𝐇𝐄 𝐁𝐎𝐓 𝐈𝐒 𝐒𝐈𝐌𝐏𝐋𝐄 𝐓𝐎 𝐌𝐎𝐃𝐈𝐅𝐘",
+    img: "https://i.ibb.co/0p8MT7kS/bfe2f787dae49dd9efe465d5c1203ecc.jpg", // رابط الصورة الجديد المدعوم
     big: false 
   });
   
@@ -13,8 +21,8 @@ const test = async (m, { conn, bot }) => {
   }, 1000); 
 };
 
-test.usage = ["رستارت"]
+test.usage = ["رستارت"];
 test.category = "owner";
 test.command = ["رستارت", "restart"];
 test.owner = true;
-export default tes
+export default test;
