@@ -1,4 +1,4 @@
-port { Client } from 'meowsab';
+import { Client } from 'meowsab';
 import { group, access } from "./system/control.js";
 import UltraDB from "./system/UltraDB.js";
 import sub from './sub.js';
